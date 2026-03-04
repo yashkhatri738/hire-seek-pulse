@@ -1,34 +1,37 @@
-import { NavLink, useLocation } from "react-router-dom";
-import { Home, Search, FileText, User, Briefcase, Users, PlusCircle, Settings } from "lucide-react";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Home, Search, FileText, User, Briefcase, Users, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const applicantLinks = [
-  { to: "/applicant/dashboard", icon: Home, label: "Home" },
-  { to: "/applicant/jobs", icon: Search, label: "Jobs" },
-  { to: "/applicant/applications", icon: FileText, label: "Applied" },
-  { to: "/applicant/profile", icon: User, label: "Profile" },
+  { href: "/applicant/dashboard", icon: Home, label: "Home" },
+  { href: "/applicant/jobs", icon: Search, label: "Jobs" },
+  { href: "/applicant/applications", icon: FileText, label: "Applied" },
+  { href: "/applicant/profile", icon: User, label: "Profile" },
 ];
 
 const employerLinks = [
-  { to: "/employer/dashboard", icon: Home, label: "Home" },
-  { to: "/employer/my-jobs", icon: Briefcase, label: "Jobs" },
-  { to: "/employer/candidates", icon: Users, label: "Candidates" },
-  { to: "/employer/settings", icon: Settings, label: "Settings" },
+  { href: "/employer/dashboard", icon: Home, label: "Home" },
+  { href: "/employer/my-jobs", icon: Briefcase, label: "Jobs" },
+  { href: "/employer/candidates", icon: Users, label: "Candidates" },
+  { href: "/employer/settings", icon: Settings, label: "Settings" },
 ];
 
 export function MobileNav({ role }: { role: "applicant" | "employer" }) {
-  const location = useLocation();
+  const pathname = usePathname();
   const links = role === "applicant" ? applicantLinks : employerLinks;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 glass-strong border-t md:hidden">
       <div className="flex items-center justify-around py-2 px-2">
         {links.map((link) => {
-          const isActive = location.pathname.startsWith(link.to);
+          const isActive = pathname.startsWith(link.href);
           return (
-            <NavLink
-              key={link.to}
-              to={link.to}
+            <Link
+              key={link.href}
+              href={link.href}
               className={cn(
                 "flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-300",
                 isActive
@@ -41,7 +44,7 @@ export function MobileNav({ role }: { role: "applicant" | "employer" }) {
               {isActive && (
                 <div className="h-1 w-1 rounded-full gradient-primary mt-0.5" />
               )}
-            </NavLink>
+            </Link>
           );
         })}
       </div>

@@ -1,7 +1,9 @@
+"use client";
+
 import { ReactNode } from "react";
 import { MobileNav } from "./MobileNav";
 import { DesktopSidebar } from "./DesktopSidebar";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Bell } from "lucide-react";
 
 interface DashboardLayoutProps {
@@ -20,7 +22,7 @@ export function DashboardLayout({ children, role, title }: DashboardLayoutProps)
             <h1 className="text-lg font-bold text-foreground">{title}</h1>
           </div>
           <div className="flex items-center gap-3">
-            <Link to="/" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="/" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Home
             </Link>
             <button className="relative p-2 rounded-xl hover:bg-muted transition-colors">

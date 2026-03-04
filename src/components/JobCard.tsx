@@ -1,6 +1,8 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { MapPin, Clock, DollarSign, Briefcase } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 interface JobCardProps {
@@ -25,7 +27,7 @@ export function JobCard({ id, title, company, location, salary, type, posted, lo
       whileTap={{ scale: 0.98 }}
     >
       <Link
-        to={`${linkPrefix}/${id}`}
+        href={`${linkPrefix}/${id}`}
         className="block bg-card rounded-2xl p-4 card-shadow hover:card-shadow-hover transition-all duration-300 group"
       >
         <div className="flex items-start gap-3">
