@@ -1,7 +1,6 @@
 {
   "/page": "app/page.js",
   "/employer/dashboard/page": "app/employer/dashboard/page.js",
-  "/employer/post-job/page": "app/employer/post-job/page.js",
   "/employer/settings/page": "app/employer/settings/page.js",
   "/employer/candidates/page": "app/employer/candidates/page.js",
   "/employer/my-jobs/page": "app/employer/my-jobs/page.js"
