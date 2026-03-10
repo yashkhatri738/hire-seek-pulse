@@ -6,11 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
-    "db:push": "drizzle-kit push --config=drizzle.config.ts",
-    "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
-    "db:migrate": "drizzle-kit migrate --config=drizzle.config.ts"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -42,7 +40,9 @@
     "@radix-ui/react-toggle-group": "^1.1.10",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@tanstack/react-query": "^5.83.0",
+    "@types/bcryptjs": "^2.4.6",
     "@uploadthing/react": "^7.3.3",
+    "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -58,7 +58,7 @@
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.61.1",
+    "react-hook-form": "^7.71.2",
     "react-resizable-panels": "^2.1.9",
     "recharts": "^2.15.4",
     "sonner": "^1.7.4",

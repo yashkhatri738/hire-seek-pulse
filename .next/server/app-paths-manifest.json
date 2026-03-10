@@ -1,7 +1,5 @@
 {
   "/page": "app/page.js",
-  "/employer/dashboard/page": "app/employer/dashboard/page.js",
-  "/employer/settings/page": "app/employer/settings/page.js",
-  "/employer/candidates/page": "app/employer/candidates/page.js",
-  "/employer/my-jobs/page": "app/employer/my-jobs/page.js"
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(auth)/register/page": "app/(auth)/register/page.js"
 }

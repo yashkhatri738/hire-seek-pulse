@@ -1,5 +1,32 @@
 {
-  "node": {},
+  "node": {
+    "7f4a5fa9697bd215e6f13d2e41ec8e1115cfed7a3e": {
+      "workers": {
+        "app/(auth)/login/page": {
+          "moduleId": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Clogin.action.ts%22%2C%5B%7B%22id%22%3A%227f4a5fa9697bd215e6f13d2e41ec8e1115cfed7a3e%22%2C%22exportedName%22%3A%22loginAction%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Clogin.action.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/(auth)/login/page": "action-browser"
+      },
+      "filename": "../D:\\YASH\\Next js\\hire-seek-pulse\\src\\lib\\action\\login.action.ts",
+      "exportedName": "loginAction"
+    },
+    "7fdeca78d4662bdd10b7c119faf387e7bbeb4e4dd2": {
+      "workers": {
+        "app/(auth)/register/page": {
+          "moduleId": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cregister.action.ts%22%2C%5B%7B%22id%22%3A%227fdeca78d4662bdd10b7c119faf387e7bbeb4e4dd2%22%2C%22exportedName%22%3A%22registrationAction%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cregister.action.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/(auth)/register/page": "action-browser"
+      },
+      "filename": "../D:\\YASH\\Next js\\hire-seek-pulse\\src\\lib\\action\\register.action.ts",
+      "exportedName": "registrationAction"
+    }
+  },
   "edge": {},
   "encryptionKey": "nGqWV3+WZjc1tbwL8WxJpGvQJxLZc+JFa5XClCx+y3I="
 }
