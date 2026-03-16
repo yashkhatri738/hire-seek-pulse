@@ -1,30 +1,69 @@
 {
   "node": {
-    "7f4a5fa9697bd215e6f13d2e41ec8e1115cfed7a3e": {
+    "7f6b69993905a108d30b7f861728ef51daddbea410": {
       "workers": {
-        "app/(auth)/login/page": {
-          "moduleId": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Clogin.action.ts%22%2C%5B%7B%22id%22%3A%227f4a5fa9697bd215e6f13d2e41ec8e1115cfed7a3e%22%2C%22exportedName%22%3A%22loginAction%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Clogin.action.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+        "app/employer/dashboard/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%2C%5B%7B%22id%22%3A%227f6b69993905a108d30b7f861728ef51daddbea410%22%2C%22exportedName%22%3A%22getJobWithEmployer%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227f78957f4a64dbb63948d48462823ffc7a7263cad3%22%2C%22exportedName%22%3A%22getJobById%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fa3e40829196a4406a1b11b694e8dfdab082fcc8b%22%2C%22exportedName%22%3A%22createJob%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fa8d7dd21198ed54902c777036662a7f15f2eb85f%22%2C%22exportedName%22%3A%22updateJob%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fb01a19a36eef39490d624a35a7cd26df8f7dae51%22%2C%22exportedName%22%3A%22getAllJobs%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%5D%5D%5D&__client_imported__=!",
           "async": false
         }
       },
       "layer": {
-        "app/(auth)/login/page": "action-browser"
+        "app/employer/dashboard/page": "rsc"
       },
-      "filename": "../D:\\YASH\\Next js\\hire-seek-pulse\\src\\lib\\action\\login.action.ts",
-      "exportedName": "loginAction"
+      "filename": "../D:\\YASH\\Next js\\hire-seek-pulse\\src\\lib\\action\\employer\\job.action.ts",
+      "exportedName": "getJobWithEmployer"
     },
-    "7fdeca78d4662bdd10b7c119faf387e7bbeb4e4dd2": {
+    "7f78957f4a64dbb63948d48462823ffc7a7263cad3": {
       "workers": {
-        "app/(auth)/register/page": {
-          "moduleId": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cregister.action.ts%22%2C%5B%7B%22id%22%3A%227fdeca78d4662bdd10b7c119faf387e7bbeb4e4dd2%22%2C%22exportedName%22%3A%22registrationAction%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cregister.action.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+        "app/employer/dashboard/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%2C%5B%7B%22id%22%3A%227f6b69993905a108d30b7f861728ef51daddbea410%22%2C%22exportedName%22%3A%22getJobWithEmployer%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227f78957f4a64dbb63948d48462823ffc7a7263cad3%22%2C%22exportedName%22%3A%22getJobById%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fa3e40829196a4406a1b11b694e8dfdab082fcc8b%22%2C%22exportedName%22%3A%22createJob%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fa8d7dd21198ed54902c777036662a7f15f2eb85f%22%2C%22exportedName%22%3A%22updateJob%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fb01a19a36eef39490d624a35a7cd26df8f7dae51%22%2C%22exportedName%22%3A%22getAllJobs%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%5D%5D%5D&__client_imported__=!",
           "async": false
         }
       },
       "layer": {
-        "app/(auth)/register/page": "action-browser"
+        "app/employer/dashboard/page": "rsc"
       },
-      "filename": "../D:\\YASH\\Next js\\hire-seek-pulse\\src\\lib\\action\\register.action.ts",
-      "exportedName": "registrationAction"
+      "filename": "../D:\\YASH\\Next js\\hire-seek-pulse\\src\\lib\\action\\employer\\job.action.ts",
+      "exportedName": "getJobById"
+    },
+    "7fa3e40829196a4406a1b11b694e8dfdab082fcc8b": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%2C%5B%7B%22id%22%3A%227f6b69993905a108d30b7f861728ef51daddbea410%22%2C%22exportedName%22%3A%22getJobWithEmployer%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227f78957f4a64dbb63948d48462823ffc7a7263cad3%22%2C%22exportedName%22%3A%22getJobById%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fa3e40829196a4406a1b11b694e8dfdab082fcc8b%22%2C%22exportedName%22%3A%22createJob%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fa8d7dd21198ed54902c777036662a7f15f2eb85f%22%2C%22exportedName%22%3A%22updateJob%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fb01a19a36eef39490d624a35a7cd26df8f7dae51%22%2C%22exportedName%22%3A%22getAllJobs%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "filename": "../D:\\YASH\\Next js\\hire-seek-pulse\\src\\lib\\action\\employer\\job.action.ts",
+      "exportedName": "createJob"
+    },
+    "7fa8d7dd21198ed54902c777036662a7f15f2eb85f": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%2C%5B%7B%22id%22%3A%227f6b69993905a108d30b7f861728ef51daddbea410%22%2C%22exportedName%22%3A%22getJobWithEmployer%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227f78957f4a64dbb63948d48462823ffc7a7263cad3%22%2C%22exportedName%22%3A%22getJobById%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fa3e40829196a4406a1b11b694e8dfdab082fcc8b%22%2C%22exportedName%22%3A%22createJob%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fa8d7dd21198ed54902c777036662a7f15f2eb85f%22%2C%22exportedName%22%3A%22updateJob%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fb01a19a36eef39490d624a35a7cd26df8f7dae51%22%2C%22exportedName%22%3A%22getAllJobs%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "filename": "../D:\\YASH\\Next js\\hire-seek-pulse\\src\\lib\\action\\employer\\job.action.ts",
+      "exportedName": "updateJob"
+    },
+    "7fb01a19a36eef39490d624a35a7cd26df8f7dae51": {
+      "workers": {
+        "app/employer/dashboard/page": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%2C%5B%7B%22id%22%3A%227f6b69993905a108d30b7f861728ef51daddbea410%22%2C%22exportedName%22%3A%22getJobWithEmployer%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227f78957f4a64dbb63948d48462823ffc7a7263cad3%22%2C%22exportedName%22%3A%22getJobById%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fa3e40829196a4406a1b11b694e8dfdab082fcc8b%22%2C%22exportedName%22%3A%22createJob%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fa8d7dd21198ed54902c777036662a7f15f2eb85f%22%2C%22exportedName%22%3A%22updateJob%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%2C%7B%22id%22%3A%227fb01a19a36eef39490d624a35a7cd26df8f7dae51%22%2C%22exportedName%22%3A%22getAllJobs%22%2C%22filename%22%3A%22..%2FD%3A%5C%5CYASH%5C%5CNext%20js%5C%5Chire-seek-pulse%5C%5Csrc%5C%5Clib%5C%5Caction%5C%5Cemployer%5C%5Cjob.action.ts%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/employer/dashboard/page": "rsc"
+      },
+      "filename": "../D:\\YASH\\Next js\\hire-seek-pulse\\src\\lib\\action\\employer\\job.action.ts",
+      "exportedName": "getAllJobs"
     }
   },
   "edge": {},
