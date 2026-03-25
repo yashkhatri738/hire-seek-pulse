@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Search, Briefcase, Users, TrendingUp, ArrowRight, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TypeAnimation } from "react-type-animation";
+import Starfield from "@/components/starfield";
 
 const features = [
   { icon: Search, title: "Smart Job Search", desc: "AI-powered matching to find your perfect role" },
@@ -21,9 +23,12 @@ const stats = [
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* 3D Starfield Background */}
+      <Starfield />
+      
       {/* Navbar */}
-      <nav className="glass-strong sticky top-0 z-50 border-b">
+      <nav className="glass-strong sticky top-0 z-50 border-b relative">
         <div className="container flex items-center justify-between h-16">
           <span className="text-xl font-bold gradient-text">Grow Career</span>
           <div className="hidden md:flex items-center gap-6">
@@ -44,7 +49,7 @@ export default function Landing() {
       </nav>
 
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden z-10">
         <div className="container relative py-20 md:py-32">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -112,7 +117,7 @@ export default function Landing() {
       </section>
 
       {/* Features */}
-      <section id="features" className="py-20 bg-muted/50">
+      <section id="features" className="py-20 bg-muted/50 relative z-10">
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground">Why Choose Grow Career</h2>
@@ -140,7 +145,7 @@ export default function Landing() {
       </section>
 
       {/* CTA */}
-      <section className="py-20">
+      <section className="py-20 relative z-10">
         <div className="container">
           <div className="gradient-primary rounded-3xl p-8 md:p-16 text-center hero-shadow">
             <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">
@@ -161,7 +166,7 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-8">
+      <footer className="border-t py-8 relative z-10">
         <div className="container text-center">
           <span className="text-sm text-muted-foreground">© 2026 Grow Career. All rights reserved.</span>
         </div>
