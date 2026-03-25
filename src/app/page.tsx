@@ -25,7 +25,7 @@ export default function Landing() {
       {/* Navbar */}
       <nav className="glass-strong sticky top-0 z-50 border-b">
         <div className="container flex items-center justify-between h-16">
-          <span className="text-xl font-bold gradient-text">JobFlow</span>
+          <span className="text-xl font-bold gradient-text">Grow Career</span>
           <div className="hidden md:flex items-center gap-6">
             <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
             <a href="#stats" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a>
@@ -55,9 +55,26 @@ export default function Landing() {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
               <Zap className="h-4 w-4" /> AI-Powered Job Matching
             </div>
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-foreground leading-tight">
-              Your Next Career
-              <span className="block gradient-text">Starts Here</span>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
+              <span className="text-foreground">Your Next Career</span>
+              <span className="block mt-2">
+                <TypeAnimation
+                  sequence={[
+                    "Starts Here",
+                    2000,
+                    "Begins Now",
+                    2000,
+                    "Awaits You",
+                    2000,
+                    "Is One Click Away",
+                    2000,
+                  ]}
+                  wrapper="span"
+                  speed={40}
+                  repeat={Infinity}
+                  className="gradient-text"
+                />
+              </span>
             </h1>
             <p className="text-lg text-muted-foreground mt-6 max-w-lg mx-auto">
               Connect with top companies and discover opportunities that match your skills. The smartest way to find your dream job.
@@ -98,7 +115,7 @@ export default function Landing() {
       <section id="features" className="py-20 bg-muted/50">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground">Why Choose JobFlow</h2>
+            <h2 className="text-3xl font-bold text-foreground">Why Choose Grow Career</h2>
             <p className="text-muted-foreground mt-2">Everything you need to succeed in your career</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -130,7 +147,7 @@ export default function Landing() {
               Ready to Get Started?
             </h2>
             <p className="text-primary-foreground/80 mt-4 max-w-md mx-auto">
-              Join thousands of professionals who found their dream careers through JobFlow.
+              Join thousands of professionals who found their dream careers through Grow Career.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
               <Link href="/applicant/dashboard">
@@ -146,7 +163,7 @@ export default function Landing() {
       {/* Footer */}
       <footer className="border-t py-8">
         <div className="container text-center">
-          <span className="text-sm text-muted-foreground">© 2026 JobFlow. All rights reserved.</span>
+          <span className="text-sm text-muted-foreground">© 2026 Grow Career. All rights reserved.</span>
         </div>
       </footer>
     </div>
