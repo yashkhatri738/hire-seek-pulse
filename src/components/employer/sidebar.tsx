@@ -3,13 +3,14 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Briefcase, ClipboardCheck, FileUser, LayoutDashboardIcon, UserPen, LogOut } from "lucide-react";
+import { Briefcase, ClipboardCheck, FileUser, LayoutDashboardIcon, UserPen, LogOut, Users } from "lucide-react";
 import { LogoutAction } from "@/lib/action/auth.action";
 import { Button } from "@/components/ui/button";
 
 const sidebarLinks = [
     {href: "/employer/dashboard", label: "Dashboard", icon: <LayoutDashboardIcon className="w-5 h-5" />},
     {href: "/employer/postjob", label: "Jobs", icon: <Briefcase className="w-5 h-5" />},
+    {href: "/employer/candidates", label: "Candidates", icon: <Users className="w-5 h-5" />},
     {href: "/employer/application", label: "Applications", icon: <FileUser className="w-5 h-5" />},
     {href: "/employer/profile", label: "Profile", icon: <UserPen className="w-5 h-5" />},
     {href: "/employer/schedule-interview", label: "Schedule Interview", icon: <ClipboardCheck className="w-5 h-5" />},

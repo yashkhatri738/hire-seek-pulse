@@ -172,6 +172,11 @@ export const jobApplications = mysqlTable(
 
     resumeUrl: text("resume_url").notNull(),
     coverLetter: text("cover_letter"),
+    
+    linkedInUrl: varchar("linkedin_url", { length: 255 }),
+    githubUrl: varchar("github_url", { length: 255 }),
+    portfolioUrl: varchar("portfolio_url", { length: 255 }),
+    yearsOfExperience: varchar("years_of_experience", { length: 50 }),
 
     status: mysqlEnum("status", [
       "applied",

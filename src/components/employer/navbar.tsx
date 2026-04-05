@@ -1,5 +1,5 @@
 import React from "react";
-import { LayoutDashboard, LogOut, UserCircle } from "lucide-react";
+import { Briefcase, LayoutDashboard, LogOut, UserCircle } from "lucide-react";
 import { getCurrentUser } from "@/lib/action/auth.quires";
 import { LogoutAction } from "@/lib/action/auth.action";
 import Link from "next/link";
@@ -63,6 +63,14 @@ const Navbar = async () => {
                                 <span>Profile</span>
                             </Link>
                         </DropdownMenuItem>
+                        {user.role === "applicant" && (
+                            <DropdownMenuItem asChild className="cursor-pointer">
+                                <Link href="/applications" className="flex w-full items-center">
+                                    <Briefcase className="mr-2 h-4 w-4" />
+                                    <span>My Applications</span>
+                                </Link>
+                            </DropdownMenuItem>
+                        )}
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild className="cursor-pointer text-destructive focus:text-destructive">
                             <form action={LogoutAction} className="w-full">

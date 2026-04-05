@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 40% 98%;
     --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
@@ -46,7 +46,7 @@
     --sidebar-ring: 221 83% 53%;
 
     --gradient-start: 221 83% 53%;
-    --gradient-end: 250 67% 55%;
+    --gradient-end: 189 94% 43%;
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
@@ -95,10 +95,10 @@
 
 @layer utilities {
   .gradient-primary {
-    @apply bg-gradient-to-r from-[hsl(221,83%,53%)] to-[hsl(250,67%,55%)];
+    @apply bg-gradient-to-r from-[hsl(221,83%,53%)] to-[hsl(189,94%,43%)];
   }
   .gradient-text {
-    @apply bg-gradient-to-r from-[hsl(221,83%,53%)] to-[hsl(250,67%,55%)] bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[hsl(221,83%,53%)] to-[hsl(189,94%,43%)] bg-clip-text text-transparent;
   }
   .glass {
     @apply bg-card/80 backdrop-blur-xl border border-border/50;

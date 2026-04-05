@@ -1,5 +1,7 @@
 import React from "react";
 import { getJobById } from "@/lib/action/employer/job.action";
+import { getApplicantProfile } from "@/lib/action/applicant/profile.action";
+import { ApplyModal } from "./apply-modal";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -49,6 +51,7 @@ export default async function JobDetailsPage({ params }: PageProps) {
     }
 
     const { job, employer } = result.data[0];
+    const applicantData = await getApplicantProfile();
 
     return (
         <div className="max-w-[1200px] mx-auto py-4 space-y-6">
@@ -105,9 +108,7 @@ export default async function JobDetailsPage({ params }: PageProps) {
                                     <Button variant="outline" size="icon" className="h-10 w-10">
                                         <Share2 className="h-4 w-4" />
                                     </Button>
-                                    <Button size="lg" className="gradient-primary text-white shadow-lg px-8 h-10">
-                                        Apply Now
-                                    </Button>
+                                    <ApplyModal jobId={jobId} applicantData={applicantData} />
                                 </div>
                             </div>
 
@@ -303,9 +304,9 @@ export default async function JobDetailsPage({ params }: PageProps) {
                             <p className="text-sm text-white/70 mb-5">
                                 Submit your application before this role gets filled.
                             </p>
-                            <Button className="w-full bg-white text-primary hover:bg-white/90 font-semibold">
-                                Apply for this Job
-                            </Button>
+                            <div className="w-full relative z-20">
+                                <ApplyModal jobId={jobId} applicantData={applicantData} />
+                            </div>
                         </div>
                     </Card>
 

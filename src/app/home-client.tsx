@@ -23,8 +23,8 @@ const stats = [
 export default function HomeClient({ user }: { user: any }) {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Subtle modern background gradient instead of stars */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background z-0 pointer-events-none" />
+      {/* Subtle modern radial background gradient for better depth */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background z-0 pointer-events-none" />
 
       {/* Navbar */}
       <nav className="glass-strong sticky top-0 z-50 border-b relative">
@@ -101,7 +101,8 @@ export default function HomeClient({ user }: { user: any }) {
           <motion.div
             id="stats"
             initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 max-w-3xl mx-auto"
           >
@@ -118,10 +119,16 @@ export default function HomeClient({ user }: { user: any }) {
       {/* Features */}
       <section id="features" className="py-20 bg-muted/50 relative z-10">
         <div className="container">
-          <div className="text-center mb-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
             <h2 className="text-3xl font-bold text-foreground">Why Choose Grow Career</h2>
             <p className="text-muted-foreground mt-2">Everything you need to succeed in your career</p>
-          </div>
+          </motion.div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {features.map((feature, i) => (
               <motion.div
@@ -146,7 +153,13 @@ export default function HomeClient({ user }: { user: any }) {
       {/* CTA */}
       <section className="py-20 relative z-10">
         <div className="container">
-          <div className="gradient-primary rounded-3xl p-8 md:p-16 text-center hero-shadow">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="gradient-primary rounded-3xl p-8 md:p-16 text-center hero-shadow"
+          >
             <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">
               Ready to Get Started?
             </h2>
@@ -160,7 +173,7 @@ export default function HomeClient({ user }: { user: any }) {
                 </Button>
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
