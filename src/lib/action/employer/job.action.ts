@@ -4,7 +4,7 @@ import { JobFormData, jobSchema } from "@/lib/schemaValidation/job.schema";
 import { getCurrentUser } from "../auth.quires";
 import { employers, jobs } from "@/drizzle/schema";
 import { db } from "@/config/db";  
-import { eq, and, desc, or, like } from "drizzle-orm";
+import { eq, and, desc, or, like, gte, lte } from "drizzle-orm";
 
 export const createJob = async (data: JobFormData) => {
     try {
@@ -62,8 +62,15 @@ export const updateJob = async (id: number, data: JobFormData) => {
 
 export const getJobById = async (id: number) => {
     try {
-        const job = await db.select().from(jobs).where(eq(jobs.id, id));
-        if (!job) {
+        const job = await db.select({
+            job: jobs,
+            employer: employers
+        })
+        .from(jobs)
+        .leftJoin(employers, eq(jobs.employersId, employers.id))
+        .where(eq(jobs.id, id));
+
+        if (!job || job.length === 0) {
             return { status: "ERROR", message: "Job not found" };
         }
         return { status: "SUCCESS", data: job };
@@ -72,32 +79,41 @@ export const getJobById = async (id: number) => {
     }
 }
 
-export const getJobWithEmployer = async () => {
+export const getJobsByEmployer = async () => {
     try {
         const user = await getCurrentUser();
         if (!user) {
             throw new Error("Unauthorized");
         }
 
-        const job = await db.select({
+        const jobsList = await db.select({
             job: jobs,
             employer: employers
         })
         .from(jobs)
         .leftJoin(employers, eq(jobs.employersId, employers.id))
         .where(eq(jobs.employersId, user.id))
-        .then(res => res[0]);
+        .orderBy(desc(jobs.createdAt));
         
-        return job;
+        return jobsList;
     } catch (error) {
-        console.error("Error getting job details", error);
-        return null;
+        console.error("Error getting jobs", error);
+        return [];
     }
 };
 
+export interface JobFilters {
+    search?: string;
+    jobType?: string[];     // remote, hybrid, on-site
+    workType?: string[];    // full-time, part-time, contract, etc.
+    jobLevel?: string[];    // entry level, junior, mid level, etc.
+    location?: string;
+    minSalary?: number;
+    maxSalary?: number;
+}
+
 export const getAllJobs = async (search?: string) => {
     try {
-        // getAllJobs might be public or role-agnostic, but we'll follow previous pattern
         const allJobs = await db.select({
             job: jobs,
             employer: employers
@@ -117,6 +133,72 @@ export const getAllJobs = async (search?: string) => {
         return allJobs;
     } catch (error) {
         console.error("Error getting all jobs", error);
+        return [];
+    }
+};
+
+export const getAllJobsFiltered = async (filters: JobFilters = {}) => {
+    try {
+        const conditions: any[] = [];
+
+        // Text search
+        if (filters.search) {
+            conditions.push(
+                or(
+                    like(jobs.title, `%${filters.search}%`),
+                    like(jobs.description, `%${filters.search}%`),
+                    like(jobs.tags, `%${filters.search}%`),
+                    like(employers.name, `%${filters.search}%`)
+                )
+            );
+        }
+
+        // Job type filter (remote/hybrid/on-site)
+        if (filters.jobType && filters.jobType.length > 0) {
+            conditions.push(
+                or(...filters.jobType.map(t => eq(jobs.jobType, t as any)))
+            );
+        }
+
+        // Work type filter (full-time/part-time/contract, etc.)
+        if (filters.workType && filters.workType.length > 0) {
+            conditions.push(
+                or(...filters.workType.map(t => eq(jobs.workType, t as any)))
+            );
+        }
+
+        // Job level filter
+        if (filters.jobLevel && filters.jobLevel.length > 0) {
+            conditions.push(
+                or(...filters.jobLevel.map(l => eq(jobs.jobLevel, l as any)))
+            );
+        }
+
+        // Location filter
+        if (filters.location) {
+            conditions.push(like(jobs.location, `%${filters.location}%`));
+        }
+
+        // Salary range filter
+        if (filters.minSalary) {
+            conditions.push(gte(jobs.maxSalary, filters.minSalary));
+        }
+        if (filters.maxSalary) {
+            conditions.push(lte(jobs.minSalary, filters.maxSalary));
+        }
+
+        const allJobs = await db.select({
+            job: jobs,
+            employer: employers
+        })
+        .from(jobs)
+        .leftJoin(employers, eq(jobs.employersId, employers.id))
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
+        .orderBy(desc(jobs.createdAt));
+        
+        return allJobs;
+    } catch (error) {
+        console.error("Error getting filtered jobs", error);
         return [];
     }
 };

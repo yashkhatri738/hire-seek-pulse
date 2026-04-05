@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { cache } from "react";
 import { validSessionAndGetUser } from "../user-case/session";
-
 export const getCurrentUser = cache(async () => {
   try {
     const cookie = await cookies();

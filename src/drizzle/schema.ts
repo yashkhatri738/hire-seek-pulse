@@ -11,6 +11,7 @@ import {
   year,
   boolean,
   uniqueIndex,
+  json,
 } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
@@ -75,21 +76,23 @@ export const applicants = mysqlTable("applicants", {
 
   gender: mysqlEnum("gender", ["male", "female", "other"]),
 
-  education: mysqlEnum("education", [
-    "none",
-    "high school",
-    "undergraduate",
-    "masters",
-    "phd",
-  ]),
-
-  experience: text("experience"),
+  education: json("education"),
+  experience: json("experience"),
+  projects: json("projects"),
+  skills: text("skills"),
   websiteUrl: varchar("website_url", { length: 255 }),
   location: varchar("location", { length: 255 }),
   deletedAt: timestamp("deleted_at", { mode: "string" }),
   createdAt: timestamp("created_at", { mode: "string" }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { mode: "string" }).defaultNow().notNull(),
 });
+
+export const applicantsRelations = relations(applicants, ({ one }) => ({
+  user: one(users, {
+    fields: [applicants.id],
+    references: [users.id],
+  }),
+}));
 
 // Relations definitions
 export const usersRelations = relations(users, ({ one, many }) => ({

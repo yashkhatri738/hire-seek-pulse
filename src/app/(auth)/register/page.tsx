@@ -65,13 +65,14 @@ export default function RegisterPage() {
     const { confirmPassword: _, ...payload } = data;
     const result = await registrationAction(payload);
 
+    console.log("result", result);
     if (result.status === "ERROR") {
       setServerError(result.message);
       return;
     }
 
     router.push(
-      data.role === "employer" ? "/employer/dashboard" : "/applicant/dashboard"
+      data.role === "employer" ? "/employer/dashboard" : "/dashboard"
     );
   };
 

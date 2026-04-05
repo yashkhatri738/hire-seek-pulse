@@ -42,3 +42,6 @@ export const MIN_EDUCATION = [
   "masters",
   "phd",
 ] as const;
+
+export const MARITAL_STATUS = ["single", "married", "divorced"] as const;
+export const GENDER = ["male", "female", "other"] as const;

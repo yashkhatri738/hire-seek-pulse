@@ -56,7 +56,7 @@ export default function LoginPage() {
     if (result.role === "employer") {
       router.push("/employer/dashboard");
     } else {
-      router.push("/applicant/dashboard");
+      router.push("/dashboard");
     }
   };
 

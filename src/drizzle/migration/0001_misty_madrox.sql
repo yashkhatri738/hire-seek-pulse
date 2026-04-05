@@ -1,0 +1,1 @@
+ALTER TABLE `applicants` ADD `skills` text;

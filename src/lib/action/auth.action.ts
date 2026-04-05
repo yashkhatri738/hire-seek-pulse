@@ -9,7 +9,7 @@ export const LogoutAction = async () => {
     const cookie = await cookies();
     const session = cookie.get("session")?.value;
     
-    if (!session) return null;
+    if (!session) return;
     
     const hasToken = crypto.createHash("sha256").update(session).digest("hex");
     
