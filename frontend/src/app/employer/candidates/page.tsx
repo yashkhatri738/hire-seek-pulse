@@ -116,7 +116,12 @@ export default async function EmployerCandidatesPage() {
                                             </Badge>
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <CandidateModal data={item} />
+                                            <div className="flex items-center justify-end gap-2">
+                                                <CandidateModal data={item} />
+                                                <Link href={`/chat?receiverId=${item.userAccount?.id}`}>
+                                                    <Button variant="outline">Message</Button>
+                                                </Link>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 
 export default async function ApplicantApplicationsPage() {
     const user = await getCurrentUser();
-    
+
     if (!user || user.role !== "applicant") {
         redirect("/login");
     }
@@ -113,6 +113,11 @@ export default async function ApplicantApplicationsPage() {
                                                     <span className="font-medium text-foreground">Included</span>
                                                 </div>
                                             )}
+                                        </div>
+                                        <div className="mt-4">
+                                            <Link href={`/chat?receiverId=${item.employer?.id}`}>
+                                                <Button variant="outline">Message Employer</Button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
