@@ -7,7 +7,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff, Loader2, LogIn, Briefcase } from "lucide-react";
 
-import { loginUserSchema, LoginUserData } from "@/lib/schemaValidation/auth.schema";
+import {
+  loginUserSchema,
+  LoginUserData,
+} from "@/lib/schemaValidation/auth.schema";
 import { loginAction } from "@/lib/action/login.action";
 
 import { Button } from "@/components/ui/button";
@@ -73,13 +76,17 @@ export default function LoginPage() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl gradient-primary mb-4 shadow-lg">
             <Briefcase className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-2xl font-bold gradient-text">HireSeek Pulse</h1>
-          <p className="text-muted-foreground text-sm mt-1">Your career journey starts here</p>
+          <h1 className="text-2xl font-bold gradient-text">HireNest</h1>
+          <p className="text-muted-foreground text-sm mt-1">
+            Your career journey starts here
+          </p>
         </div>
 
         <Card className="glass-strong card-shadow border-border/40">
           <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-2xl font-semibold text-center">Welcome back</CardTitle>
+            <CardTitle className="text-2xl font-semibold text-center">
+              Welcome back
+            </CardTitle>
             <CardDescription className="text-center">
               Sign in to your account to continue
             </CardDescription>
@@ -87,7 +94,10 @@ export default function LoginPage() {
 
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
                 {/* Server Error */}
                 {serverError && (
                   <div className="px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-sm text-center">
@@ -139,7 +149,11 @@ export default function LoginPage() {
                             onClick={() => setShowPassword((p) => !p)}
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                           >
-                            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            {showPassword ? (
+                              <EyeOff className="w-4 h-4" />
+                            ) : (
+                              <Eye className="w-4 h-4" />
+                            )}
                           </button>
                         </div>
                       </FormControl>

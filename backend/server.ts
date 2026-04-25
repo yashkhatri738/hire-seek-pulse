@@ -28,6 +28,9 @@ const io = new Server(server, {
 
 initSocket(io);
 
-server.listen(process.env.PORT || 5000, () => {
-  console.log("Server running...");
+const PORT = process.env.PORT || 5000;
+
+server.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🔌 Socket.io ready for connections`);
 });

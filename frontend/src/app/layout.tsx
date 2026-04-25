@@ -3,8 +3,9 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 
 export const metadata: Metadata = {
-  title: "JobFlow – AI-Powered Job Matching",
-  description: "Connect with top companies and discover opportunities that match your skills.",
+  title: "HireNest – AI-Powered Job Matching",
+  description:
+    "Connect with top companies and discover opportunities that match your skills.",
 };
 
 export default function RootLayout({

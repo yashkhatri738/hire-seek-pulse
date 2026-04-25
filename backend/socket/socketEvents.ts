@@ -6,39 +6,51 @@ import { findOrCreateConversation } from "../services/conversationService";
 export const handleSocketEvents = (io: Server, socket: Socket) => {
 
   // User join
-  socket.on("join", (userId: string) => {
-    onlineUsers.set(userId, socket.id);
-    console.log("User joined:", userId);
+  socket.on("join", (userId: number | string) => {
+    const id = userId.toString();
+    onlineUsers.set(id, socket.id);
+    console.log("✅ User joined:", id, "| Socket ID:", socket.id);
+    console.log("📋 Online users:", Array.from(onlineUsers.keys()));
   });
 
   // Send message
   socket.on("sendMessage", async (data) => {
-  const { senderId, receiverId, content } = data;
+    console.log("📨 Received sendMessage:", JSON.stringify(data, null, 2));
+    const { senderId, receiverId, conversationId, content } = data;
 
-  // 🔥 get conversation
-  const conversationId = await findOrCreateConversation(
-    senderId,
-    receiverId
-  );
+    // Use provided conversationId or find/create one
+    let convId = conversationId;
+    if (!convId) {
+      console.log("🔍 Finding/creating conversation between", senderId, "and", receiverId);
+      convId = await findOrCreateConversation(senderId, receiverId);
+      console.log("✅ Conversation ID:", convId);
+    }
 
-  const message = await saveMessage({
-    senderId,
-    conversationId,
-    content,
+    const message = await saveMessage({
+      senderId,
+      conversationId: convId,
+      content,
+    });
+    console.log("💾 Message saved:", JSON.stringify(message, null, 2));
+
+    const receiverSocketId = onlineUsers.get(receiverId.toString());
+    console.log("🔍 Looking for receiver:", receiverId, "| Socket ID:", receiverSocketId);
+    console.log("📋 All online users:", Array.from(onlineUsers.entries()));
+
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("receiveMessage", message);
+      console.log("✅ Message sent to receiver socket:", receiverSocketId);
+    } else {
+      console.log("⚠️ Receiver not online:", receiverId);
+    }
   });
-
-  const receiverSocketId = onlineUsers.get(receiverId);
-
-  if (receiverSocketId) {
-    io.to(receiverSocketId).emit("receiveMessage", message);
-  }
-});
 
   // Disconnect
   socket.on("disconnect", () => {
-    for (let [userId, socketId] of onlineUsers.entries()) {
+    for (const [userId, socketId] of onlineUsers.entries()) {
       if (socketId === socket.id) {
         onlineUsers.delete(userId);
+        console.log("❌ User disconnected:", userId);
         break;
       }
     }

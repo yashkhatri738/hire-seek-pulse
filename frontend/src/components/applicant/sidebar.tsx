@@ -4,16 +4,15 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Briefcase,
-  ClipboardCheck,
-  FileUser,
-  LayoutDashboardIcon,
-  UserPen,
-  LogOut,
-  Users,
+  LayoutDashboard,
+  FileText,
   MessageSquare,
+  User,
+  LogOut,
   ChevronRight,
   Sparkles,
+  Search,
+  Briefcase,
 } from "lucide-react";
 import { LogoutAction } from "@/lib/action/auth.action";
 import { Button } from "@/components/ui/button";
@@ -21,50 +20,27 @@ import { Separator } from "@/components/ui/separator";
 
 const sidebarLinks = [
   {
-    href: "/employer/dashboard",
-    label: "Dashboard",
-    icon: LayoutDashboardIcon,
+    href: "/dashboard",
+    label: "Browse Jobs",
+    icon: Search,
     color: "text-violet-500",
   },
   {
-    href: "/employer/postjob",
-    label: "Post Job",
-    icon: Briefcase,
+    href: "/applications",
+    label: "My Applications",
+    icon: FileText,
     color: "text-pink-500",
   },
   {
-    href: "/employer/candidates",
-    label: "Candidates",
-    icon: Users,
-    color: "text-emerald-500",
-  },
-  {
-    href: "/employer/application",
-    label: "My Jobs",
-    icon: FileUser,
-    color: "text-amber-500",
-  },
-  {
-    href: "/employer/chat",
+    href: "/chat",
     label: "Messages",
     icon: MessageSquare,
     color: "text-sky-500",
   },
-  {
-    href: "/employer/profile",
-    label: "Settings",
-    icon: UserPen,
-    color: "text-orange-500",
-  },
-  {
-    href: "/employer/schedule-interview",
-    label: "Interviews",
-    icon: ClipboardCheck,
-    color: "text-teal-500",
-  },
+  { href: "/profile", label: "Profile", icon: User, color: "text-emerald-500" },
 ];
 
-const Sidebar = () => {
+const ApplicantSidebar = () => {
   const pathname = usePathname();
 
   return (
@@ -72,14 +48,14 @@ const Sidebar = () => {
       {/* Logo */}
       <div className="h-[70px] flex items-center px-6 gap-3">
         <div className="h-9 w-9 rounded-xl gradient-primary flex items-center justify-center shadow-lg glow-sm">
-          <Sparkles className="h-4.5 w-4.5 text-white" />
+          <Briefcase className="h-4.5 w-4.5 text-white" />
         </div>
         <div>
           <span className="text-lg font-bold gradient-text tracking-tight">
             HireNest
           </span>
           <p className="text-[10px] text-muted-foreground font-medium -mt-0.5">
-            Employer Portal
+            Job Seeker
           </p>
         </div>
       </div>
@@ -93,7 +69,9 @@ const Sidebar = () => {
         </div>
         {sidebarLinks.map((link) => {
           const isActive =
-            pathname === link.href || pathname.startsWith(link.href + "/");
+            pathname === link.href ||
+            (link.href !== "/dashboard" &&
+              pathname.startsWith(link.href + "/"));
           const Icon = link.icon;
           return (
             <Link
@@ -148,4 +126,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default ApplicantSidebar;

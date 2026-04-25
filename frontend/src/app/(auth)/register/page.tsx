@@ -72,7 +72,7 @@ export default function RegisterPage() {
     }
 
     router.push(
-      data.role === "employer" ? "/employer/dashboard" : "/dashboard"
+      data.role === "employer" ? "/employer/dashboard" : "/dashboard",
     );
   };
 
@@ -89,13 +89,17 @@ export default function RegisterPage() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl gradient-primary mb-4 shadow-lg">
             <Briefcase className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-2xl font-bold gradient-text">HireSeek Pulse</h1>
-          <p className="text-muted-foreground text-sm mt-1">Your career journey starts here</p>
+          <h1 className="text-2xl font-bold gradient-text">HireNest</h1>
+          <p className="text-muted-foreground text-sm mt-1">
+            Your career journey starts here
+          </p>
         </div>
 
         <Card className="glass-strong card-shadow border-border/40">
           <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-2xl font-semibold text-center">Create an account</CardTitle>
+            <CardTitle className="text-2xl font-semibold text-center">
+              Create an account
+            </CardTitle>
             <CardDescription className="text-center">
               Fill in the details below to get started
             </CardDescription>
@@ -103,7 +107,10 @@ export default function RegisterPage() {
 
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
                 {/* Server Error */}
                 {serverError && (
                   <div className="px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-sm text-center">
@@ -120,7 +127,11 @@ export default function RegisterPage() {
                       <FormItem>
                         <FormLabel>Full Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="John Doe" disabled={isSubmitting} {...field} />
+                          <Input
+                            placeholder="John Doe"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -133,7 +144,11 @@ export default function RegisterPage() {
                       <FormItem>
                         <FormLabel>Username</FormLabel>
                         <FormControl>
-                          <Input placeholder="john_doe" disabled={isSubmitting} {...field} />
+                          <Input
+                            placeholder="john_doe"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -171,7 +186,11 @@ export default function RegisterPage() {
                       <FormItem>
                         <FormLabel>Phone Number</FormLabel>
                         <FormControl>
-                          <Input placeholder="+91 9876543210" disabled={isSubmitting} {...field} />
+                          <Input
+                            placeholder="+91 9876543210"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -228,7 +247,11 @@ export default function RegisterPage() {
                             onClick={() => setShowPassword((p) => !p)}
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                           >
-                            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            {showPassword ? (
+                              <EyeOff className="w-4 h-4" />
+                            ) : (
+                              <Eye className="w-4 h-4" />
+                            )}
                           </button>
                         </div>
                       </FormControl>
@@ -260,7 +283,11 @@ export default function RegisterPage() {
                             onClick={() => setShowConfirm((p) => !p)}
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                           >
-                            {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            {showConfirm ? (
+                              <EyeOff className="w-4 h-4" />
+                            ) : (
+                              <Eye className="w-4 h-4" />
+                            )}
                           </button>
                         </div>
                       </FormControl>

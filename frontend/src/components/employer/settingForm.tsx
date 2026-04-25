@@ -121,11 +121,14 @@ const EmployerSettingsForm = ({
                         button: <Camera size={16} />,
                       }}
                       onClientUploadComplete={(res) => {
-                        const url = res?.[0]?.ufsUrl || "";
+                        const url = res?.[0]?.ufsUrl || res?.[0]?.url || "";
                         if (url) {
                           setValue("avatarUrl", url, { shouldDirty: true });
                           toast.success("Avatar uploaded");
                         }
+                      }}
+                      onUploadError={(error) => {
+                        toast.error("Upload failed: " + error.message);
                       }}
                     />
                   </div>
@@ -157,20 +160,23 @@ const EmployerSettingsForm = ({
                 <div className="absolute bottom-3 right-3">
                   <UploadButton
                     endpoint="imageUploader"
-                    // appearance={{
-                    //   button:
-                    //     "w-10 h-10 rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/80 transition flex items-center justify-center",
-                    //   allowedContent: "hidden",
-                    // }}
+                    appearance={{
+                      button:
+                        "w-10 h-10 rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/80 transition flex items-center justify-center",
+                      allowedContent: "hidden",
+                    }}
                     content={{
                       button: <Camera size={18} />,
                     }}
                     onClientUploadComplete={(res) => {
-                      const url = res?.[0]?.ufsUrl || "";
+                      const url = res?.[0]?.ufsUrl || res?.[0]?.url || "";
                       if (url) {
                         setValue("bannerImageUrl", url, { shouldDirty: true });
                         toast.success("Banner uploaded");
                       }
+                    }}
+                    onUploadError={(error) => {
+                      toast.error("Upload failed: " + error.message);
                     }}
                   />
                 </div>
