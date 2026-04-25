@@ -7,6 +7,8 @@ import {
 } from "@/lib/action/chat.action";
 import ChatPageClient from "@/components/chat-page-client";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   searchParams: Promise<{ receiverId?: string }>;
 }

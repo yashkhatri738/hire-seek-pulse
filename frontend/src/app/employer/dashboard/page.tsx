@@ -13,6 +13,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+
+export const dynamic = "force-dynamic";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { format } from "date-fns";
@@ -50,7 +52,11 @@ export default async function EmployerDashboard() {
 
   const totalJobs = jobs.length;
   const totalApplications = applications.length;
-  const activeJobs = jobs.filter(({ job }) => job.status !== "closed").length;
+  const activeJobs = jobs.filter(
+    ({ job }) =>
+      !job.deletedAt &&
+      (!job.expiresAt || new Date(job.expiresAt) > new Date()),
+  ).length;
   const shortlisted = applications.filter(
     (a) => a.application.status === "shortlisted",
   ).length;

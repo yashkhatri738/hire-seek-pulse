@@ -13,6 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { format } from "date-fns";
 import {

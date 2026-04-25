@@ -131,7 +131,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                     <div className="w-full h-full rounded-full overflow-hidden border-2 border-border bg-muted">
                       {form.watch("avatarUrl") ? (
                         <img
-                          src={form.watch("avatarUrl")}
+                          src={form.watch("avatarUrl") || ""}
                           alt="Profile"
                           className="w-full h-full object-cover"
                         />

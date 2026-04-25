@@ -22,6 +22,8 @@ import {
   FileText,
 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 const ApplicationPage = async () => {
   const jobs = await getJobsByEmployer();
 

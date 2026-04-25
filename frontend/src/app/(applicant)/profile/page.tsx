@@ -3,6 +3,8 @@ import { getApplicantProfile } from "@/lib/action/applicant/profile.action";
 import { User } from "lucide-react";
 import { ProfilePageClient } from "@/components/applicant/profile-page-client";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProfilePage() {
   const profile = await getApplicantProfile();
 

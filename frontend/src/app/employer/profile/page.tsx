@@ -3,6 +3,8 @@ import { getEmployerDetails } from "@/lib/action/employer/employer.action";
 import { EmployerProfileData } from "@/lib/schemaValidation/employer.schema";
 import { Building2 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 const SettingsPage = async () => {
   const response = await getEmployerDetails();
 

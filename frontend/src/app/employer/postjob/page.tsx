@@ -1,6 +1,8 @@
 import { JobForm } from "@/components/employer/job-form";
 import { Briefcase } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default function PostJobPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-6 animate-fade-up">
