@@ -11,14 +11,14 @@ async function testDatabaseConnection() {
   try {
     // Test basic connection
     const result = await db.execute(sql`SELECT 1 as test`);
-    
+
     // Get database info
     const dbName = await db.execute(sql`SELECT DATABASE() as db_name`);
     const version = await db.execute(sql`SELECT VERSION() as version`);
-    
+
     // Count tables
     const tables = await db.execute(
-      sql`SELECT COUNT(*) as table_count FROM information_schema.tables WHERE table_schema = DATABASE()`
+      sql`SELECT COUNT(*) as table_count FROM information_schema.tables WHERE table_schema = DATABASE()`,
     );
 
     return {
@@ -136,7 +136,10 @@ export default async function TestDbPage() {
                 </p>
               </div>
               <div className="text-xs text-muted-foreground">
-                Tested at: {new Date(result.timestamp || new Date().toISOString()).toLocaleString()}
+                Tested at:{" "}
+                {new Date(
+                  result.timestamp || new Date().toISOString(),
+                ).toLocaleString()}
               </div>
             </div>
           )}
@@ -145,9 +148,7 @@ export default async function TestDbPage() {
           <div className="pt-4 border-t">
             <h3 className="font-semibold mb-3 text-sm">Environment</h3>
             <div className="flex flex-wrap gap-2">
-              <Badge variant="outline">
-                Node: {process.version}
-              </Badge>
+              <Badge variant="outline">Node: {process.version}</Badge>
               <Badge variant="outline">
                 ENV: {process.env.NODE_ENV || "development"}
               </Badge>
