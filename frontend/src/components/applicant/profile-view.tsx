@@ -42,6 +42,8 @@ import {
   EducationItem,
   ProjectItem,
 } from "@/lib/schemaValidation/applicant.schema";
+import { UploadButton } from "@/lib/uploadthing";
+import { toast } from "sonner";
 
 interface ProfileViewProps {
   data: any;
@@ -108,8 +110,6 @@ function calcCompleteness(data: any): number {
 /* ================================================================== */
 export function ProfileView({ data }: ProfileViewProps) {
   const [resumeDialogOpen, setResumeDialogOpen] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const name = data.user?.name || "User";
   const email = data.user?.email || "";
@@ -143,12 +143,6 @@ export function ProfileView({ data }: ProfileViewProps) {
     : [];
 
   const completeness = calcCompleteness(data);
-
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
-    }
-  };
 
   return (
     <motion.div
@@ -242,31 +236,23 @@ export function ProfileView({ data }: ProfileViewProps) {
                       </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4 pt-2">
-                      <div
-                        className="border-2 border-dashed border-primary/30 rounded-xl p-8 text-center cursor-pointer hover:border-primary/60 hover:bg-primary/5 transition-all duration-300 group"
-                        onClick={() => fileInputRef.current?.click()}
-                      >
-                        <input
-                          type="file"
-                          ref={fileInputRef}
-                          className="hidden"
-                          accept=".pdf"
-                          onChange={handleFileSelect}
+                      <div className="border-2 border-dashed border-primary/30 rounded-xl p-8 text-center">
+                        <UploadButton
+                          endpoint="resumeUploader"
+                          onClientUploadComplete={(res) => {
+                            if (res?.[0]?.url) {
+                              toast.success(
+                                "Resume uploaded successfully! Please refresh to see changes.",
+                              );
+                              setResumeDialogOpen(false);
+                            }
+                          }}
+                          onUploadError={(error) => {
+                            toast.error(
+                              error?.message || "Failed to upload resume",
+                            );
+                          }}
                         />
-                        <div className="flex flex-col items-center gap-3">
-                          <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center">
-                            <Upload className="h-6 w-6 text-primary" />
-                          </div>
-                          {selectedFile ? (
-                            <p className="font-medium text-foreground">
-                              {selectedFile.name}
-                            </p>
-                          ) : (
-                            <p className="font-medium text-foreground">
-                              Click to browse
-                            </p>
-                          )}
-                        </div>
                       </div>
                       {resumeUrl && (
                         <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50 text-sm">
@@ -284,12 +270,6 @@ export function ProfileView({ data }: ProfileViewProps) {
                           </a>
                         </div>
                       )}
-                      <Button
-                        className="w-full h-11 gradient-primary text-white"
-                        disabled={!selectedFile}
-                      >
-                        Upload Resume
-                      </Button>
                     </div>
                   </DialogContent>
                 </Dialog>

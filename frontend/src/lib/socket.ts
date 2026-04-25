@@ -1,5 +1,8 @@
 import { io } from "socket.io-client";
 
-export const socket = io("http://localhost:5000", {
+// Use deployed backend or localhost for development
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+
+export const socket = io(BACKEND_URL, {
   autoConnect: false,
 });
