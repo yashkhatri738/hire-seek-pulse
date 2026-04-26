@@ -3,7 +3,7 @@
 import { JobFormData, jobSchema } from "@/lib/schemaValidation/job.schema";
 import { getCurrentUser } from "../auth.quires";
 import { employers, jobs } from "@/drizzle/schema";
-import { db } from "@/config/db";  
+import { db } from "@/config/db";
 import { eq, and, desc, or, like, gte, lte } from "drizzle-orm";
 
 export const createJob = async (data: JobFormData) => {
@@ -26,7 +26,7 @@ export const createJob = async (data: JobFormData) => {
         return { status: "SUCCESS", message: "Job created successfully" };
     } catch (error) {
         return { status: "ERROR", message: "Failed to create job" };
-    }  
+    }
 }
 
 export const updateJob = async (id: number, data: JobFormData) => {
@@ -43,13 +43,13 @@ export const updateJob = async (id: number, data: JobFormData) => {
 
         const existingJob = await db.select().from(jobs).where(eq(jobs.id, id));
         if (!existingJob) {
-            return { status: "ERROR", message: "Job not found" };   
+            return { status: "ERROR", message: "Job not found" };
         }
 
         await db.update(jobs)
             .set({ ...jobData })
             .where(eq(jobs.id, id));
-        
+
         if (error) {
             return { status: "ERROR", message: "Failed to update job" };
         }
@@ -57,7 +57,7 @@ export const updateJob = async (id: number, data: JobFormData) => {
         return { status: "SUCCESS", message: "Job updated successfully" };
     } catch (error) {
         return { status: "ERROR", message: "Failed to update job" };
-    }  
+    }
 }
 
 export const getJobById = async (id: number) => {
@@ -66,9 +66,9 @@ export const getJobById = async (id: number) => {
             job: jobs,
             employer: employers
         })
-        .from(jobs)
-        .leftJoin(employers, eq(jobs.employersId, employers.id))
-        .where(eq(jobs.id, id));
+            .from(jobs)
+            .leftJoin(employers, eq(jobs.employersId, employers.id))
+            .where(eq(jobs.id, id));
 
         if (!job || job.length === 0) {
             return { status: "ERROR", message: "Job not found" };
@@ -90,11 +90,11 @@ export const getJobsByEmployer = async () => {
             job: jobs,
             employer: employers
         })
-        .from(jobs)
-        .leftJoin(employers, eq(jobs.employersId, employers.id))
-        .where(eq(jobs.employersId, user.id))
-        .orderBy(desc(jobs.createdAt));
-        
+            .from(jobs)
+            .leftJoin(employers, eq(jobs.employersId, employers.id))
+            .where(eq(jobs.employersId, user.id))
+            .orderBy(desc(jobs.createdAt));
+
         return jobsList;
     } catch (error) {
         console.error("Error getting jobs", error);
@@ -118,18 +118,18 @@ export const getAllJobs = async (search?: string) => {
             job: jobs,
             employer: employers
         })
-        .from(jobs)
-        .leftJoin(employers, eq(jobs.employersId, employers.id))
-        .where(
-            search ? or(
-                like(jobs.title, `%${search}%`),
-                like(jobs.description, `%${search}%`),
-                like(jobs.tags, `%${search}%`),
-                like(employers.name, `%${search}%`)
-            ) : undefined
-        )
-        .orderBy(desc(jobs.createdAt));
-        
+            .from(jobs)
+            .leftJoin(employers, eq(jobs.employersId, employers.id))
+            .where(
+                search ? or(
+                    like(jobs.title, `%${search}%`),
+                    like(jobs.description, `%${search}%`),
+                    like(jobs.tags, `%${search}%`),
+                    like(employers.name, `%${search}%`)
+                ) : undefined
+            )
+            .orderBy(desc(jobs.createdAt));
+
         return allJobs;
     } catch (error) {
         console.error("Error getting all jobs", error);
@@ -191,14 +191,41 @@ export const getAllJobsFiltered = async (filters: JobFilters = {}) => {
             job: jobs,
             employer: employers
         })
-        .from(jobs)
-        .leftJoin(employers, eq(jobs.employersId, employers.id))
-        .where(conditions.length > 0 ? and(...conditions) : undefined)
-        .orderBy(desc(jobs.createdAt));
-        
+            .from(jobs)
+            .leftJoin(employers, eq(jobs.employersId, employers.id))
+            .where(conditions.length > 0 ? and(...conditions) : undefined)
+            .orderBy(desc(jobs.createdAt));
+
         return allJobs;
     } catch (error) {
         console.error("Error getting filtered jobs", error);
         return [];
+    }
+};
+
+export const deleteJob = async (id: number) => {
+    try {
+        const user = await getCurrentUser();
+        if (!user) {
+            return { status: "ERROR", message: "User not found" };
+        }
+
+        // Verify the job belongs to the current user
+        const existingJob = await db.select().from(jobs).where(eq(jobs.id, id));
+        if (!existingJob || existingJob.length === 0) {
+            return { status: "ERROR", message: "Job not found" };
+        }
+
+        if (existingJob[0].employersId !== user.id) {
+            return { status: "ERROR", message: "Unauthorized to delete this job" };
+        }
+
+        // Delete the job (applications will be automatically deleted due to cascade)
+        await db.delete(jobs).where(eq(jobs.id, id));
+
+        return { status: "SUCCESS", message: "Job deleted successfully" };
+    } catch (error) {
+        console.error("Error deleting job", error);
+        return { status: "ERROR", message: "Failed to delete job" };
     }
 };

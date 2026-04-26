@@ -7,13 +7,7 @@ import {
   getConversationMessages,
 } from "@/lib/action/chat.action";
 import { format } from "date-fns";
-import {
-  Send,
-  MessageSquare,
-  Search,
-  ArrowLeft,
-  Loader2,
-} from "lucide-react";
+import { Send, MessageSquare, Search, ArrowLeft, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -72,7 +66,7 @@ export default function ChatPageClient({
   const [messageInput, setMessageInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showMobileSidebar, setShowMobileSidebar] = useState(
-    !initialActiveConversationId
+    !initialActiveConversationId,
   );
   const [loadingMessages, setLoadingMessages] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -82,7 +76,7 @@ export default function ChatPageClient({
   activeConvRef.current = activeConversationId;
 
   const activeConversation = conversations.find(
-    (c) => c.conversationId === activeConversationId
+    (c) => c.conversationId === activeConversationId,
   );
 
   // Auto-scroll to bottom when messages change
@@ -114,7 +108,7 @@ export default function ChatPageClient({
       // Update conversation sidebar's last message
       setConversations((prev) => {
         const existing = prev.find(
-          (c) => c.conversationId === msg.conversationId
+          (c) => c.conversationId === msg.conversationId,
         );
         if (existing) {
           return prev.map((c) =>
@@ -128,7 +122,7 @@ export default function ChatPageClient({
                     createdAt: msg.createdAt,
                   },
                 }
-              : c
+              : c,
           );
         } else {
           // New conversation from someone new — refetch sidebar
@@ -197,8 +191,8 @@ export default function ChatPageClient({
                 createdAt: new Date().toISOString(),
               },
             }
-          : c
-      )
+          : c,
+      ),
     );
 
     setMessageInput("");
@@ -212,7 +206,7 @@ export default function ChatPageClient({
   };
 
   const filteredConversations = conversations.filter((c) =>
-    c.user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    c.user.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const formatMessageTime = (date: string | Date | null) => {
@@ -246,7 +240,7 @@ export default function ChatPageClient({
       <div
         className={cn(
           "w-full md:w-80 lg:w-96 border-r flex flex-col bg-card shrink-0",
-          showMobileSidebar ? "flex" : "hidden md:flex"
+          showMobileSidebar ? "flex" : "hidden md:flex",
         )}
       >
         {/* Sidebar Header */}
@@ -283,7 +277,7 @@ export default function ChatPageClient({
                   className={cn(
                     "w-full flex items-center gap-3 p-4 hover:bg-muted/50 transition-colors text-left",
                     activeConversationId === conv.conversationId &&
-                      "bg-primary/5 border-l-2 border-l-primary"
+                      "bg-primary/5 border-l-2 border-l-primary",
                   )}
                 >
                   <Avatar className="h-11 w-11 shrink-0">
@@ -298,9 +292,7 @@ export default function ChatPageClient({
                         {conv.user.name}
                       </p>
                       <span className="text-[11px] text-muted-foreground shrink-0 ml-2">
-                        {formatSidebarTime(
-                          conv.lastMessage?.createdAt || null
-                        )}
+                        {formatSidebarTime(conv.lastMessage?.createdAt || null)}
                       </span>
                     </div>
                     <p className="text-xs text-muted-foreground truncate">
@@ -322,7 +314,7 @@ export default function ChatPageClient({
       <div
         className={cn(
           "flex-1 flex flex-col",
-          !showMobileSidebar ? "flex" : "hidden md:flex"
+          !showMobileSidebar ? "flex" : "hidden md:flex",
         )}
       >
         {activeConversation ? (
@@ -378,7 +370,7 @@ export default function ChatPageClient({
                           key={msg.id || i}
                           className={cn(
                             "flex",
-                            isSelf ? "justify-end" : "justify-start"
+                            isSelf ? "justify-end" : "justify-start",
                           )}
                         >
                           <div
@@ -386,7 +378,7 @@ export default function ChatPageClient({
                               "max-w-[70%] rounded-2xl px-4 py-2.5 shadow-sm",
                               isSelf
                                 ? "bg-primary text-primary-foreground rounded-br-md"
-                                : "bg-muted rounded-bl-md"
+                                : "bg-muted rounded-bl-md",
                             )}
                           >
                             <p className="text-sm whitespace-pre-wrap break-words">
@@ -397,7 +389,7 @@ export default function ChatPageClient({
                                 "text-[10px] mt-1",
                                 isSelf
                                   ? "text-primary-foreground/70"
-                                  : "text-muted-foreground"
+                                  : "text-muted-foreground",
                               )}
                             >
                               {formatMessageTime(msg.createdAt)}
@@ -426,7 +418,7 @@ export default function ChatPageClient({
                   onClick={sendMessage}
                   size="icon"
                   disabled={!messageInput.trim()}
-                  className="shrink-0 gradient-primary"
+                  className="shrink-0 bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                   <Send className="h-4 w-4" />
                 </Button>

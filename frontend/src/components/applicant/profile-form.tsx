@@ -792,7 +792,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
             <div className="sticky top-6">
               <Button
                 type="submit"
-                className="w-full h-12 text-lg shadow-lg gradient-primary text-white"
+                className="w-full h-12 text-lg shadow-lg bg-primary text-primary-foreground hover:bg-primary/90"
                 disabled={isPending}
               >
                 {isPending ? (

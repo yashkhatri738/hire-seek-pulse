@@ -74,7 +74,7 @@ export default async function ApplicantApplicationsPage() {
           </p>
         </div>
         <Link href="/dashboard">
-          <Button className="gradient-primary text-white border-0 rounded-xl shadow-lg hover:shadow-xl transition-shadow h-10">
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl shadow-lg hover:shadow-xl transition-shadow h-10">
             <Search className="mr-2 h-4 w-4" /> Browse More Jobs
           </Button>
         </Link>
@@ -138,7 +138,7 @@ export default async function ApplicantApplicationsPage() {
               the next step in your career!
             </p>
             <Link href="/dashboard">
-              <Button className="gradient-primary text-white border-0 rounded-xl shadow-lg">
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl shadow-lg">
                 Find Jobs
               </Button>
             </Link>

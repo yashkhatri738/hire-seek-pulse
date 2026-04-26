@@ -73,7 +73,7 @@ export default function LoginPage() {
       <div className="relative w-full max-w-md">
         {/* Logo / Brand */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl gradient-primary mb-4 shadow-lg">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary mb-4 shadow-lg">
             <Briefcase className="w-7 h-7 text-white" />
           </div>
           <h1 className="text-2xl font-bold gradient-text">HireNest</h1>
@@ -165,7 +165,7 @@ export default function LoginPage() {
                 {/* Submit */}
                 <Button
                   type="submit"
-                  className="w-full gradient-primary text-white font-semibold h-11 mt-2"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold h-11 mt-2"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (

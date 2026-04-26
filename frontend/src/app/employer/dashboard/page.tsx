@@ -147,7 +147,7 @@ export default async function EmployerDashboard() {
             </Link>
           </Button>
           <Button
-            className="h-10 rounded-xl gradient-primary text-white border-0 shadow-lg hover:shadow-xl transition-shadow"
+            className="h-10 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl transition-shadow"
             asChild
           >
             <Link href="/employer/postjob">

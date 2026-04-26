@@ -77,7 +77,7 @@ export function ApplyModal({ jobId, applicantData }: ApplyModalProps) {
       <DialogTrigger asChild>
         <Button
           size="lg"
-          className="gradient-primary text-white shadow-lg px-8 h-10 w-full sm:w-auto"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg px-8 h-10 w-full sm:w-auto"
         >
           Apply Now
         </Button>
@@ -231,7 +231,7 @@ export function ApplyModal({ jobId, applicantData }: ApplyModalProps) {
             <Button
               type="submit"
               disabled={isLoading}
-              className="gradient-primary text-white"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Submit Application

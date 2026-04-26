@@ -156,9 +156,9 @@ export function ProfileView({ data }: ProfileViewProps) {
       {/* ============================================================ */}
       <motion.div variants={fadeUp}>
         <Card className="overflow-hidden border-0 card-shadow relative">
-          {/* Gradient banner */}
+          {/* Solid banner */}
           <div className="h-44 sm:h-52 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/80 to-secondary" />
+            <div className="absolute inset-0 bg-primary" />
             <div
               className="absolute inset-0 opacity-[0.07]"
               style={{
@@ -177,7 +177,7 @@ export function ProfileView({ data }: ProfileViewProps) {
                 <div className="ring-4 ring-background rounded-full shadow-xl">
                   <Avatar className="h-28 w-28 sm:h-36 sm:w-36 border-4 border-background">
                     <AvatarImage src={avatar} alt={name} />
-                    <AvatarFallback className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-primary to-secondary text-white">
+                    <AvatarFallback className="text-2xl sm:text-3xl font-bold bg-primary text-primary-foreground">
                       {getInitials(name)}
                     </AvatarFallback>
                   </Avatar>
@@ -217,7 +217,7 @@ export function ProfileView({ data }: ProfileViewProps) {
                 >
                   <DialogTrigger asChild>
                     <Button
-                      className="gap-2 gradient-primary text-white shadow-lg h-11 px-6"
+                      className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg h-11 px-6"
                       id="upload-resume-btn"
                     >
                       <Upload className="h-4 w-4" />

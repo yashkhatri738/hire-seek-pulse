@@ -71,7 +71,7 @@ const Sidebar = () => {
     <aside className="fixed left-0 top-0 h-screen w-[260px] bg-card/95 backdrop-blur-xl flex flex-col z-40 sidebar-shadow border-r border-border/60">
       {/* Logo */}
       <div className="h-[70px] flex items-center px-6 gap-3">
-        <div className="h-9 w-9 rounded-xl gradient-primary flex items-center justify-center shadow-lg glow-sm">
+        <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center shadow-lg glow-sm">
           <Sparkles className="h-4.5 w-4.5 text-white" />
         </div>
         <div>
@@ -106,7 +106,7 @@ const Sidebar = () => {
               }`}
             >
               {isActive && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full gradient-primary" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-primary" />
               )}
               <div
                 className={`flex items-center justify-center h-8 w-8 rounded-lg transition-colors ${

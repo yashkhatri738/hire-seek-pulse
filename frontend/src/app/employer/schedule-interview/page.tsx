@@ -56,7 +56,7 @@ export default async function ScheduleInterviewPage() {
           </p>
         </div>
         <Button
-          className="gradient-primary text-white border-0 rounded-xl shadow-lg hover:shadow-xl transition-shadow h-10"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl shadow-lg hover:shadow-xl transition-shadow h-10"
           asChild
         >
           <Link href="/employer/candidates">
@@ -202,9 +202,9 @@ export default async function ScheduleInterviewPage() {
 
       {/* Coming Soon Feature Notice */}
       <Card className="border-0 overflow-hidden relative">
-        <div className="absolute inset-0 gradient-primary opacity-[0.03]" />
+        <div className="absolute inset-0 bg-primary/5" />
         <CardContent className="p-8 text-center relative">
-          <div className="h-14 w-14 rounded-2xl gradient-primary flex items-center justify-center mx-auto mb-4 shadow-lg glow-sm">
+          <div className="h-14 w-14 rounded-2xl bg-primary flex items-center justify-center mx-auto mb-4 shadow-lg glow-sm">
             <Video className="h-6 w-6 text-white" />
           </div>
           <h3 className="text-lg font-semibold">
@@ -222,7 +222,7 @@ export default async function ScheduleInterviewPage() {
               </Link>
             </Button>
             <Button
-              className="gradient-primary text-white border-0 rounded-xl"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl"
               asChild
             >
               <Link href="/employer/candidates">

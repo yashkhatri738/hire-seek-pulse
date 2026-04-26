@@ -58,7 +58,7 @@ export default async function EmployerCandidatesPage() {
             </Button>
           </Link>
           <Link href="/employer/dashboard">
-            <Button className="gradient-primary text-white border-0 rounded-xl h-10 shadow-lg">
+            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl h-10 shadow-lg">
               Back to Dashboard
             </Button>
           </Link>
@@ -77,7 +77,7 @@ export default async function EmployerCandidatesPage() {
               posts are active and visible.
             </p>
             <Link href="/employer/postjob">
-              <Button className="gradient-primary text-white border-0 rounded-xl">
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl">
                 Post a Job
               </Button>
             </Link>

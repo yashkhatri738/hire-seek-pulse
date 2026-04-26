@@ -42,7 +42,7 @@ const Navbar = async () => {
           <Button
             asChild
             size="sm"
-            className="gradient-primary text-white border-0 shadow-md hover:shadow-lg transition-shadow"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg transition-shadow"
           >
             <Link href="/register">Register</Link>
           </Button>
@@ -103,7 +103,7 @@ const Navbar = async () => {
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-2.5 cursor-pointer hover:bg-muted/60 py-1.5 pl-1.5 pr-3 rounded-xl transition-colors outline-none">
               <Avatar className="h-8 w-8 border-2 border-primary/20">
-                <AvatarFallback className="gradient-primary text-white text-xs font-semibold">
+                <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
                   {initials}
                 </AvatarFallback>
               </Avatar>
