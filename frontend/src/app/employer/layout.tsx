@@ -3,21 +3,24 @@ import { redirect } from "next/navigation";
 import React from "react";
 import Sidebar from "@/components/employer/sidebar";
 import Navbar from "@/components/employer/navbar";
+import { AppBackground } from "@/components/app-background";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const user = await getCurrentUser();
-  if (user && user.role !== "employer") {
+  if (!user) {
     redirect("/login");
+  }
+  if (user.role !== "employer") {
+    redirect("/dashboard");
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative min-h-screen bg-background">
+      <AppBackground />
       <Sidebar />
-      <div className="pl-[260px] flex flex-col min-h-screen">
+      <div className="relative z-10 flex min-h-screen flex-col lg:pl-[260px]">
         <Navbar />
-        <main className="flex-1 p-6 lg:p-8 bg-dot-pattern gradient-mesh">
-          {children}
-        </main>
+        <main className="flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
     </div>
   );

@@ -5,10 +5,6 @@ import {
   LogOut,
   UserCircle,
   MessageSquare,
-  Bell,
-  Search,
-  Sun,
-  Moon,
 } from "lucide-react";
 import { getCurrentUser } from "@/lib/action/auth.quires";
 import { LogoutAction } from "@/lib/action/auth.action";
@@ -23,26 +19,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import { MobileNav } from "@/components/mobile-nav";
+import { NavSearch } from "@/components/nav-search";
 
 const Navbar = async () => {
   const user = await getCurrentUser();
 
   if (!user) {
     return (
-      <header className="h-[70px] border-b border-border/60 bg-card/80 backdrop-blur-xl flex items-center px-6 sticky top-0 z-30">
+      <header className="sticky top-0 z-30 flex h-[70px] items-center border-b border-white/[0.06] bg-background/70 px-6 backdrop-blur-xl">
+        <Link href="/" className="text-lg font-bold tracking-tight gradient-text">
+          HireNest
+        </Link>
         <div className="ml-auto flex items-center gap-3">
           <Button
             asChild
             variant="ghost"
             size="sm"
-            className="text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-white"
           >
             <Link href="/login">Login</Link>
           </Button>
           <Button
             asChild
             size="sm"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg transition-shadow"
+            className="border-0 bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg shadow-violet-500/30 transition-all hover:from-violet-500 hover:to-purple-500"
           >
             <Link href="/register">Register</Link>
           </Button>
@@ -51,6 +52,7 @@ const Navbar = async () => {
     );
   }
 
+  const variant = user.role === "employer" ? "employer" : "applicant";
   const initials = user.name
     ? user.name
         .split(" ")
@@ -61,57 +63,44 @@ const Navbar = async () => {
     : "U";
 
   return (
-    <header className="h-[70px] border-b border-border/60 bg-card/80 backdrop-blur-xl flex items-center px-6 sticky top-0 z-30">
-      {/* Search bar (optional - visible on wider screens) */}
-      <div className="hidden lg:flex items-center gap-2 bg-muted/60 rounded-xl px-3 py-2 w-72 transition-colors focus-within:bg-muted focus-within:ring-1 focus-within:ring-primary/20">
-        <Search className="h-4 w-4 text-muted-foreground" />
-        <input
-          type="text"
-          placeholder="Search anything..."
-          className="bg-transparent text-sm outline-none flex-1 placeholder:text-muted-foreground/60"
-        />
-      </div>
+    <header className="sticky top-0 z-30 flex h-[70px] items-center gap-2 border-b border-white/[0.06] bg-background/70 px-4 backdrop-blur-xl sm:px-6">
+      <MobileNav variant={variant} />
+
+      {user.role === "applicant" && <NavSearch />}
 
       <div className="ml-auto flex items-center gap-2">
-        {/* Notifications */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative h-9 w-9 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/80"
-        >
-          <Bell className="h-[18px] w-[18px]" />
-          <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-pink-500 ring-2 ring-card animate-pulse-soft" />
-        </Button>
-
         {/* Messages shortcut */}
         <Button
           variant="ghost"
           size="icon"
           asChild
-          className="h-9 w-9 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/80"
+          className="h-9 w-9 rounded-xl text-muted-foreground hover:bg-white/[0.06] hover:text-white"
         >
-          <Link href={user.role === "employer" ? "/employer/chat" : "/chat"}>
+          <Link
+            href={user.role === "employer" ? "/employer/chat" : "/chat"}
+            aria-label="Messages"
+          >
             <MessageSquare className="h-[18px] w-[18px]" />
           </Link>
         </Button>
 
         {/* Divider */}
-        <div className="h-6 w-px bg-border mx-1" />
+        <div className="mx-1 h-6 w-px bg-white/[0.08]" />
 
         {/* User Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-2.5 cursor-pointer hover:bg-muted/60 py-1.5 pl-1.5 pr-3 rounded-xl transition-colors outline-none">
-              <Avatar className="h-8 w-8 border-2 border-primary/20">
-                <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
+            <button className="flex cursor-pointer items-center gap-2.5 rounded-xl py-1.5 pl-1.5 pr-3 outline-none transition-colors hover:bg-white/[0.05]">
+              <Avatar className="h-8 w-8 border border-primary/30">
+                <AvatarFallback className="bg-gradient-to-br from-violet-600 to-pink-600 text-xs font-semibold text-white">
                   {initials}
                 </AvatarFallback>
               </Avatar>
-              <div className="hidden sm:block text-left">
-                <p className="text-sm font-semibold leading-none">
+              <div className="hidden text-left sm:block">
+                <p className="text-sm font-semibold leading-none text-white">
                   {user?.name || "User"}
                 </p>
-                <p className="text-[11px] text-muted-foreground leading-none mt-0.5 capitalize">
+                <p className="mt-0.5 text-[11px] capitalize leading-none text-muted-foreground">
                   {user?.role}
                 </p>
               </div>
@@ -185,7 +174,7 @@ const Navbar = async () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               asChild
-              className="cursor-pointer rounded-lg px-3 py-2 text-destructive focus:text-destructive focus:bg-destructive/8"
+              className="cursor-pointer rounded-lg px-3 py-2 text-destructive focus:bg-destructive/10 focus:text-destructive"
             >
               <form action={LogoutAction} className="w-full">
                 <button type="submit" className="flex w-full items-center">

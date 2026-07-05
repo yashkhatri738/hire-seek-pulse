@@ -1,10 +1,8 @@
 "use server"
 
-import { db } from "@/config/db";
-import { jobApplications, jobs, employers } from "@/drizzle/schema";
-import { eq, desc, and } from "drizzle-orm";
 import { getCurrentUser } from "../auth.quires";
 import { revalidatePath } from "next/cache";
+import { createSupabaseServerClient } from "../../supabase";
 
 export type ApplicationInput = {
     jobId: number;
@@ -26,31 +24,39 @@ export const submitApplication = async (data: ApplicationInput) => {
             return { status: "ERROR", message: "Unauthorized or not an applicant." };
         }
 
-        // Check if already applied
-        const existing = await db.select().from(jobApplications)
-            .where(and(
-                eq(jobApplications.jobId, data.jobId),
-                eq(jobApplications.applicantId, user.id)
-            ));
+        const supabase = await createSupabaseServerClient();
 
-        if (existing.length > 0) {
+        // Check if already applied
+        const { data: existing, error: checkError } = await supabase
+            .from("job_applications")
+            .select("id")
+            .eq("job_id", data.jobId)
+            .eq("applicant_id", user.id);
+
+        if (checkError) throw checkError;
+
+        if (existing && existing.length > 0) {
             return { status: "ERROR", message: "You have already applied for this job." };
         }
 
-        await db.insert(jobApplications).values({
-            jobId: data.jobId,
-            applicantId: user.id,
-            name: data.name,
-            email: data.email,
-            phoneNumber: data.phoneNumber || "",
-            resumeUrl: data.resumeUrl,
-            coverLetter: data.coverLetter || "",
-            linkedInUrl: data.linkedInUrl || "",
-            githubUrl: data.githubUrl || "",
-            portfolioUrl: data.portfolioUrl || "",
-            yearsOfExperience: data.yearsOfExperience || "",
-            status: "applied"
-        });
+        const { error: insertError } = await supabase
+            .from("job_applications")
+            .insert({
+                job_id: data.jobId,
+                applicant_id: user.id,
+                name: data.name,
+                email: data.email,
+                phone_number: data.phoneNumber || "",
+                resume_url: data.resumeUrl,
+                cover_letter: data.coverLetter || "",
+                linkedin_url: data.linkedInUrl || "",
+                github_url: data.githubUrl || "",
+                portfolio_url: data.portfolioUrl || "",
+                years_of_experience: data.yearsOfExperience || "",
+                status: "applied"
+            });
+
+        if (insertError) throw insertError;
 
         revalidatePath(`/jobs/${data.jobId}`);
         revalidatePath(`/applications`);
@@ -69,18 +75,83 @@ export const getMyApplications = async () => {
             return { status: "ERROR", data: [] };
         }
 
-        const list = await db.select({
-            application: jobApplications,
-            job: jobs,
-            employer: employers
-        })
-        .from(jobApplications)
-        .where(eq(jobApplications.applicantId, user.id))
-        .leftJoin(jobs, eq(jobs.id, jobApplications.jobId))
-        .leftJoin(employers, eq(employers.id, jobs.employersId))
-        .orderBy(desc(jobApplications.appliedAt));
+        const supabase = await createSupabaseServerClient();
+        const { data: list, error } = await supabase
+            .from("job_applications")
+            .select(`
+                *,
+                job:jobs (
+                    *,
+                    employer:employers (
+                        *
+                    )
+                )
+            `)
+            .eq("applicant_id", user.id)
+            .order("applied_at", { ascending: false });
 
-        return { status: "SUCCESS", data: list };
+        if (error) throw error;
+
+        // Map format to match original: { application, job, employer }
+        const formatted = (list || []).map((app: any) => ({
+            application: {
+                id: app.id,
+                jobId: app.job_id,
+                applicantId: app.applicant_id,
+                name: app.name,
+                email: app.email,
+                phoneNumber: app.phone_number,
+                resumeUrl: app.resume_url,
+                coverLetter: app.cover_letter,
+                linkedInUrl: app.linkedin_url,
+                githubUrl: app.github_url,
+                portfolioUrl: app.portfolio_url,
+                yearsOfExperience: app.years_of_experience,
+                status: app.status,
+                employerNotes: app.employer_notes,
+                appliedAt: app.applied_at,
+                updatedAt: app.updated_at
+            },
+            job: {
+                id: app.job.id,
+                title: app.job.title,
+                employersId: app.job.employer_id,
+                description: app.job.description,
+                tags: app.job.tags,
+                minSalary: app.job.min_salary,
+                maxSalary: app.job.max_salary,
+                salaryCurrency: app.job.salary_currency,
+                salaryPeriod: app.job.salary_period,
+                location: app.job.location,
+                jobType: app.job.job_type,
+                workType: app.job.work_type,
+                jobLevel: app.job.job_level,
+                experience: app.job.experience,
+                minEducation: app.job.min_education,
+                isFeatured: app.job.is_featured,
+                expiresAt: app.job.expires_at,
+                deletedAt: app.job.deleted_at,
+                createdAt: app.job.created_at,
+                updatedAt: app.job.updated_at
+            },
+            employer: app.job.employer ? {
+                id: app.job.employer.id,
+                name: app.job.employer.name,
+                description: app.job.employer.description,
+                avatarUrl: app.job.employer.avatar_url,
+                bannerImageUrl: app.job.employer.banner_image_url,
+                organizationType: app.job.employer.organization_type,
+                teamSize: app.job.employer.team_size,
+                yearOfEstablishment: app.job.employer.year_of_establishment,
+                websiteUrl: app.job.employer.website_url,
+                location: app.job.employer.location,
+                deletedAt: app.job.employer.deleted_at,
+                createdAt: app.job.employer.created_at,
+                updatedAt: app.job.employer.updated_at
+            } : null
+        }));
+
+        return { status: "SUCCESS", data: formatted };
     } catch (error) {
          console.error("Error fetching applications:", error);
          return { status: "ERROR", data: [] };

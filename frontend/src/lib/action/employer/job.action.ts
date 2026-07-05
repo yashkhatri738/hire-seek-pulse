@@ -2,9 +2,7 @@
 
 import { JobFormData, jobSchema } from "@/lib/schemaValidation/job.schema";
 import { getCurrentUser } from "../auth.quires";
-import { employers, jobs } from "@/drizzle/schema";
-import { db } from "@/config/db";
-import { eq, and, desc, or, like, gte, lte } from "drizzle-orm";
+import { createSupabaseServerClient } from "../../supabase";
 
 export const createJob = async (data: JobFormData) => {
     try {
@@ -18,13 +16,32 @@ export const createJob = async (data: JobFormData) => {
             return { status: "ERROR", message: "User not found" };
         }
 
-        await db.insert(jobs).values({
-            ...jobData,
-            employersId: user.id,
-        });
+        const supabase = await createSupabaseServerClient();
+        const { error: dbError } = await supabase
+            .from("jobs")
+            .insert({
+                title: jobData.title,
+                employer_id: user.id,
+                description: jobData.description,
+                tags: jobData.tags,
+                min_salary: jobData.minSalary,
+                max_salary: jobData.maxSalary,
+                salary_currency: jobData.salaryCurrency,
+                salary_period: jobData.salaryPeriod,
+                location: jobData.location,
+                job_type: jobData.jobType,
+                work_type: jobData.workType,
+                job_level: jobData.jobLevel,
+                experience: jobData.experience,
+                min_education: jobData.minEducation,
+                expires_at: jobData.expiresAt ? new Date(jobData.expiresAt).toISOString() : null,
+            });
+
+        if (dbError) throw dbError;
 
         return { status: "SUCCESS", message: "Job created successfully" };
     } catch (error) {
+        console.error("Error creating job:", error);
         return { status: "ERROR", message: "Failed to create job" };
     }
 }
@@ -41,40 +58,98 @@ export const updateJob = async (id: number, data: JobFormData) => {
             return { status: "ERROR", message: "User not found" };
         }
 
-        const existingJob = await db.select().from(jobs).where(eq(jobs.id, id));
-        if (!existingJob) {
-            return { status: "ERROR", message: "Job not found" };
-        }
+        const supabase = await createSupabaseServerClient();
 
-        await db.update(jobs)
-            .set({ ...jobData })
-            .where(eq(jobs.id, id));
+        const { error: dbError } = await supabase
+            .from("jobs")
+            .update({
+                title: jobData.title,
+                description: jobData.description,
+                tags: jobData.tags,
+                min_salary: jobData.minSalary,
+                max_salary: jobData.maxSalary,
+                salary_currency: jobData.salaryCurrency,
+                salary_period: jobData.salaryPeriod,
+                location: jobData.location,
+                job_type: jobData.jobType,
+                work_type: jobData.workType,
+                job_level: jobData.jobLevel,
+                experience: jobData.experience,
+                min_education: jobData.minEducation,
+                expires_at: jobData.expiresAt ? new Date(jobData.expiresAt).toISOString() : null,
+            })
+            .eq("id", id);
 
-        if (error) {
-            return { status: "ERROR", message: "Failed to update job" };
-        }
+        if (dbError) throw dbError;
 
         return { status: "SUCCESS", message: "Job updated successfully" };
     } catch (error) {
+        console.error("Error updating job:", error);
         return { status: "ERROR", message: "Failed to update job" };
     }
 }
 
+const mapJobItem = (item: any) => ({
+    job: {
+        id: item.id,
+        title: item.title,
+        employersId: item.employer_id,
+        description: item.description,
+        tags: item.tags,
+        minSalary: item.min_salary,
+        maxSalary: item.max_salary,
+        salaryCurrency: item.salary_currency,
+        salaryPeriod: item.salary_period,
+        location: item.location,
+        jobType: item.job_type,
+        workType: item.work_type,
+        jobLevel: item.job_level,
+        experience: item.experience,
+        minEducation: item.min_education,
+        isFeatured: item.is_featured,
+        expiresAt: item.expires_at,
+        deletedAt: item.deleted_at,
+        createdAt: item.created_at,
+        updatedAt: item.updated_at
+    },
+    employer: item.employer ? {
+        id: item.employer.id,
+        name: item.employer.name,
+        description: item.employer.description,
+        avatarUrl: item.employer.avatar_url,
+        bannerImageUrl: item.employer.banner_image_url,
+        organizationType: item.employer.organization_type,
+        teamSize: item.employer.team_size,
+        yearOfEstablishment: item.employer.year_of_establishment,
+        websiteUrl: item.employer.website_url,
+        location: item.employer.location,
+        deletedAt: item.employer.deleted_at,
+        createdAt: item.employer.created_at,
+        updatedAt: item.employer.updated_at
+    } : null
+});
+
 export const getJobById = async (id: number) => {
     try {
-        const job = await db.select({
-            job: jobs,
-            employer: employers
-        })
-            .from(jobs)
-            .leftJoin(employers, eq(jobs.employersId, employers.id))
-            .where(eq(jobs.id, id));
+        const supabase = await createSupabaseServerClient();
+        const { data: job, error } = await supabase
+            .from("jobs")
+            .select(`
+                *,
+                employer:employers (
+                    *
+                )
+            `)
+            .eq("id", id)
+            .maybeSingle();
 
-        if (!job || job.length === 0) {
+        if (error || !job) {
             return { status: "ERROR", message: "Job not found" };
         }
-        return { status: "SUCCESS", data: job };
+
+        return { status: "SUCCESS", data: [mapJobItem(job)] };
     } catch (error) {
+        console.error("Error getting job by id:", error);
         return { status: "ERROR", message: "Failed to get job" };
     }
 }
@@ -86,16 +161,21 @@ export const getJobsByEmployer = async () => {
             throw new Error("Unauthorized");
         }
 
-        const jobsList = await db.select({
-            job: jobs,
-            employer: employers
-        })
-            .from(jobs)
-            .leftJoin(employers, eq(jobs.employersId, employers.id))
-            .where(eq(jobs.employersId, user.id))
-            .orderBy(desc(jobs.createdAt));
+        const supabase = await createSupabaseServerClient();
+        const { data: list, error } = await supabase
+            .from("jobs")
+            .select(`
+                *,
+                employer:employers (
+                    *
+                )
+            `)
+            .eq("employer_id", user.id)
+            .order("created_at", { ascending: false });
 
-        return jobsList;
+        if (error) throw error;
+
+        return (list || []).map(mapJobItem);
     } catch (error) {
         console.error("Error getting jobs", error);
         return [];
@@ -104,9 +184,9 @@ export const getJobsByEmployer = async () => {
 
 export interface JobFilters {
     search?: string;
-    jobType?: string[];     // remote, hybrid, on-site
-    workType?: string[];    // full-time, part-time, contract, etc.
-    jobLevel?: string[];    // entry level, junior, mid level, etc.
+    jobType?: string[];
+    workType?: string[];
+    jobLevel?: string[];
     location?: string;
     minSalary?: number;
     maxSalary?: number;
@@ -114,23 +194,24 @@ export interface JobFilters {
 
 export const getAllJobs = async (search?: string) => {
     try {
-        const allJobs = await db.select({
-            job: jobs,
-            employer: employers
-        })
-            .from(jobs)
-            .leftJoin(employers, eq(jobs.employersId, employers.id))
-            .where(
-                search ? or(
-                    like(jobs.title, `%${search}%`),
-                    like(jobs.description, `%${search}%`),
-                    like(jobs.tags, `%${search}%`),
-                    like(employers.name, `%${search}%`)
-                ) : undefined
-            )
-            .orderBy(desc(jobs.createdAt));
+        const supabase = await createSupabaseServerClient();
+        let query = supabase
+            .from("jobs")
+            .select(`
+                *,
+                employer:employers (
+                    *
+                )
+            `);
 
-        return allJobs;
+        if (search) {
+            query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%,tags.ilike.%${search}%`);
+        }
+
+        const { data: list, error } = await query.order("created_at", { ascending: false });
+        if (error) throw error;
+
+        return (list || []).map(mapJobItem);
     } catch (error) {
         console.error("Error getting all jobs", error);
         return [];
@@ -139,64 +220,47 @@ export const getAllJobs = async (search?: string) => {
 
 export const getAllJobsFiltered = async (filters: JobFilters = {}) => {
     try {
-        const conditions: any[] = [];
-
-        // Text search
-        if (filters.search) {
-            conditions.push(
-                or(
-                    like(jobs.title, `%${filters.search}%`),
-                    like(jobs.description, `%${filters.search}%`),
-                    like(jobs.tags, `%${filters.search}%`),
-                    like(employers.name, `%${filters.search}%`)
+        const supabase = await createSupabaseServerClient();
+        let query = supabase
+            .from("jobs")
+            .select(`
+                *,
+                employer:employers (
+                    *
                 )
-            );
+            `);
+
+        if (filters.search) {
+            query = query.or(`title.ilike.%${filters.search}%,description.ilike.%${filters.search}%,tags.ilike.%${filters.search}%`);
         }
 
-        // Job type filter (remote/hybrid/on-site)
         if (filters.jobType && filters.jobType.length > 0) {
-            conditions.push(
-                or(...filters.jobType.map(t => eq(jobs.jobType, t as any)))
-            );
+            query = query.in("job_type", filters.jobType);
         }
 
-        // Work type filter (full-time/part-time/contract, etc.)
         if (filters.workType && filters.workType.length > 0) {
-            conditions.push(
-                or(...filters.workType.map(t => eq(jobs.workType, t as any)))
-            );
+            query = query.in("work_type", filters.workType);
         }
 
-        // Job level filter
         if (filters.jobLevel && filters.jobLevel.length > 0) {
-            conditions.push(
-                or(...filters.jobLevel.map(l => eq(jobs.jobLevel, l as any)))
-            );
+            query = query.in("job_level", filters.jobLevel);
         }
 
-        // Location filter
         if (filters.location) {
-            conditions.push(like(jobs.location, `%${filters.location}%`));
+            query = query.ilike("location", `%${filters.location}%`);
         }
 
-        // Salary range filter
         if (filters.minSalary) {
-            conditions.push(gte(jobs.maxSalary, filters.minSalary));
+            query = query.gte("max_salary", filters.minSalary);
         }
         if (filters.maxSalary) {
-            conditions.push(lte(jobs.minSalary, filters.maxSalary));
+            query = query.lte("min_salary", filters.maxSalary);
         }
 
-        const allJobs = await db.select({
-            job: jobs,
-            employer: employers
-        })
-            .from(jobs)
-            .leftJoin(employers, eq(jobs.employersId, employers.id))
-            .where(conditions.length > 0 ? and(...conditions) : undefined)
-            .orderBy(desc(jobs.createdAt));
+        const { data: list, error } = await query.order("created_at", { ascending: false });
+        if (error) throw error;
 
-        return allJobs;
+        return (list || []).map(mapJobItem);
     } catch (error) {
         console.error("Error getting filtered jobs", error);
         return [];
@@ -210,18 +274,27 @@ export const deleteJob = async (id: number) => {
             return { status: "ERROR", message: "User not found" };
         }
 
-        // Verify the job belongs to the current user
-        const existingJob = await db.select().from(jobs).where(eq(jobs.id, id));
-        if (!existingJob || existingJob.length === 0) {
+        const supabase = await createSupabaseServerClient();
+        const { data: existingJob, error: fetchError } = await supabase
+            .from("jobs")
+            .select("employer_id")
+            .eq("id", id)
+            .maybeSingle();
+
+        if (fetchError || !existingJob) {
             return { status: "ERROR", message: "Job not found" };
         }
 
-        if (existingJob[0].employersId !== user.id) {
+        if (existingJob.employer_id !== user.id) {
             return { status: "ERROR", message: "Unauthorized to delete this job" };
         }
 
-        // Delete the job (applications will be automatically deleted due to cascade)
-        await db.delete(jobs).where(eq(jobs.id, id));
+        const { error: deleteError } = await supabase
+            .from("jobs")
+            .delete()
+            .eq("id", id);
+
+        if (deleteError) throw deleteError;
 
         return { status: "SUCCESS", message: "Job deleted successfully" };
     } catch (error) {

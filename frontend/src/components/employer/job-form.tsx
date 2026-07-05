@@ -8,7 +8,13 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { format } from "date-fns";
-import { CalendarIcon, Loader2 } from "lucide-react";
+import {
+  CalendarIcon,
+  Loader2,
+  Briefcase,
+  Wallet,
+  Layers,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import {
@@ -105,13 +111,18 @@ export function JobForm({ initialData }: JobFormProps) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
-            <Card>
+            <Card className="border-white/[0.06] bg-white/[0.03] backdrop-blur-sm">
               <CardContent className="pt-6 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-lg font-medium">Job Details</h3>
-                  <p className="text-sm text-muted-foreground">Basic information about the role.</p>
+                <div className="mb-4 flex items-start gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-violet-500/20 bg-violet-500/10 text-violet-300">
+                    <Briefcase className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Job Details</h3>
+                    <p className="text-sm text-muted-foreground">Basic information about the role.</p>
+                  </div>
                 </div>
-                
+
                 <FormField
                   control={form.control}
                   name="title"
@@ -176,11 +187,16 @@ export function JobForm({ initialData }: JobFormProps) {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-white/[0.06] bg-white/[0.03] backdrop-blur-sm">
               <CardContent className="pt-6 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-lg font-medium">Salary Information</h3>
-                  <p className="text-sm text-muted-foreground">Provide compensation details for the role.</p>
+                <div className="mb-4 flex items-start gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-300">
+                    <Wallet className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Salary Information</h3>
+                    <p className="text-sm text-muted-foreground">Provide compensation details for the role.</p>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -277,10 +293,16 @@ export function JobForm({ initialData }: JobFormProps) {
           </div>
 
           <div className="space-y-6">
-            <Card>
+            <Card className="border-white/[0.06] bg-white/[0.03] backdrop-blur-sm">
               <CardContent className="pt-6 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-lg font-medium">Job Classification</h3>
+                <div className="mb-4 flex items-start gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-sky-500/20 bg-sky-500/10 text-sky-300">
+                    <Layers className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Job Classification</h3>
+                    <p className="text-sm text-muted-foreground">Categorize the role for better matching.</p>
+                  </div>
                 </div>
 
                 <FormField
@@ -401,7 +423,7 @@ export function JobForm({ initialData }: JobFormProps) {
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "pl-3 text-left font-normal",
+                                "pl-3 text-left font-normal border-white/10 bg-transparent hover:bg-white/[0.05]",
                                 !field.value && "text-muted-foreground"
                               )}
                             >
@@ -442,15 +464,20 @@ export function JobForm({ initialData }: JobFormProps) {
         </div>
 
         <div className="flex justify-end gap-4 pb-10">
-          <Button 
-            type="button" 
-            variant="outline" 
+          <Button
+            type="button"
+            variant="outline"
             onClick={() => router.back()}
             disabled={isPending}
+            className="border-white/10 bg-transparent hover:bg-white/[0.05]"
           >
             Cancel
           </Button>
-          <Button type="submit" disabled={isPending}>
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="border-0 bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg shadow-violet-500/30 hover:from-violet-500 hover:to-purple-500"
+          >
             {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isEditing ? "Update Job" : "Post Job"}
           </Button>

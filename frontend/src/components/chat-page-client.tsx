@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 type ConversationItem = {
   conversationId: number;
   user: {
-    id: number;
+    id: string | number;
     name: string;
     avatarUrl: string | null;
     role: string;
@@ -25,7 +25,7 @@ type ConversationItem = {
   lastMessage: {
     id: number;
     content: string;
-    senderId: number;
+    senderId: string | number;
     createdAt: string | Date | null;
   } | null;
 };
@@ -33,7 +33,7 @@ type ConversationItem = {
 type MessageItem = {
   id: number;
   conversationId: number;
-  senderId: number;
+  senderId: string | number;
   content: string;
   createdAt: string | Date | null;
   senderName: string | null;
@@ -41,7 +41,7 @@ type MessageItem = {
 
 type ChatPageClientProps = {
   currentUser: {
-    id: number;
+    id: string | number;
     name: string;
     email: string;
     role: string;
@@ -235,24 +235,24 @@ export default function ChatPageClient({
   };
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] bg-background overflow-hidden rounded-lg border">
+    <div className="flex h-[calc(100vh-70px)] overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur">
       {/* ───── Sidebar ───── */}
       <div
         className={cn(
-          "w-full md:w-80 lg:w-96 border-r flex flex-col bg-card shrink-0",
+          "w-full md:w-80 lg:w-96 border-r border-white/[0.06] flex flex-col bg-white/[0.02] shrink-0",
           showMobileSidebar ? "flex" : "hidden md:flex",
         )}
       >
         {/* Sidebar Header */}
-        <div className="p-4 border-b shrink-0">
-          <h2 className="text-xl font-bold mb-3">Messages</h2>
+        <div className="p-4 border-b border-white/[0.06] shrink-0">
+          <h2 className="text-xl font-bold text-white mb-3">Messages</h2>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search conversations..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9"
+              className="pl-9 border-white/[0.08] bg-white/[0.03]"
             />
           </div>
         </div>
@@ -269,26 +269,26 @@ export default function ChatPageClient({
               </p>
             </div>
           ) : (
-            <div className="divide-y">
+            <div className="p-2 space-y-1">
               {filteredConversations.map((conv) => (
                 <button
                   key={conv.conversationId}
                   onClick={() => selectConversation(conv.conversationId)}
                   className={cn(
-                    "w-full flex items-center gap-3 p-4 hover:bg-muted/50 transition-colors text-left",
+                    "w-full flex items-center gap-3 p-3 rounded-xl transition-colors text-left hover:bg-white/[0.04]",
                     activeConversationId === conv.conversationId &&
-                      "bg-primary/5 border-l-2 border-l-primary",
+                      "bg-primary/10 ring-1 ring-primary/20 hover:bg-primary/10",
                   )}
                 >
                   <Avatar className="h-11 w-11 shrink-0">
                     <AvatarImage src={conv.user.avatarUrl || undefined} />
-                    <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                    <AvatarFallback className="bg-primary/15 text-primary font-semibold">
                       {conv.user.name.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-0.5">
-                      <p className="font-semibold text-sm truncate">
+                      <p className="font-semibold text-sm text-foreground truncate">
                         {conv.user.name}
                       </p>
                       <span className="text-[11px] text-muted-foreground shrink-0 ml-2">
@@ -320,7 +320,7 @@ export default function ChatPageClient({
         {activeConversation ? (
           <>
             {/* Chat Header */}
-            <div className="h-16 border-b flex items-center gap-3 px-4 bg-card shrink-0">
+            <div className="h-16 border-b border-white/[0.06] flex items-center gap-3 px-4 bg-white/[0.02] shrink-0">
               <Button
                 variant="ghost"
                 size="icon"
@@ -333,12 +333,12 @@ export default function ChatPageClient({
                 <AvatarImage
                   src={activeConversation.user.avatarUrl || undefined}
                 />
-                <AvatarFallback className="bg-primary/10 text-primary font-semibold text-sm">
+                <AvatarFallback className="bg-primary/15 text-primary font-semibold text-sm">
                   {activeConversation.user.name.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div>
-                <p className="font-semibold text-sm">
+                <p className="font-semibold text-sm text-foreground">
                   {activeConversation.user.name}
                 </p>
                 <p className="text-xs text-muted-foreground capitalize">
@@ -377,8 +377,8 @@ export default function ChatPageClient({
                             className={cn(
                               "max-w-[70%] rounded-2xl px-4 py-2.5 shadow-sm",
                               isSelf
-                                ? "bg-primary text-primary-foreground rounded-br-md"
-                                : "bg-muted rounded-bl-md",
+                                ? "bg-gradient-to-br from-violet-600 to-purple-600 text-white rounded-br-md shadow-violet-500/20"
+                                : "bg-white/[0.05] text-foreground rounded-bl-md",
                             )}
                           >
                             <p className="text-sm whitespace-pre-wrap break-words">
@@ -388,7 +388,7 @@ export default function ChatPageClient({
                               className={cn(
                                 "text-[10px] mt-1",
                                 isSelf
-                                  ? "text-primary-foreground/70"
+                                  ? "text-white/70"
                                   : "text-muted-foreground",
                               )}
                             >
@@ -405,20 +405,20 @@ export default function ChatPageClient({
             </ScrollArea>
 
             {/* Message Input */}
-            <div className="p-4 border-t bg-card shrink-0">
+            <div className="p-4 border-t border-white/[0.06] bg-white/[0.02] shrink-0">
               <div className="flex items-center gap-2 max-w-3xl mx-auto">
                 <Input
                   value={messageInput}
                   onChange={(e) => setMessageInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Type a message..."
-                  className="flex-1"
+                  className="flex-1 border-white/[0.08] bg-white/[0.03]"
                 />
                 <Button
                   onClick={sendMessage}
                   size="icon"
                   disabled={!messageInput.trim()}
-                  className="shrink-0 bg-primary text-primary-foreground hover:bg-primary/90"
+                  className="shrink-0 border-0 bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg shadow-violet-500/30 hover:from-violet-500 hover:to-purple-500"
                 >
                   <Send className="h-4 w-4" />
                 </Button>
@@ -428,10 +428,12 @@ export default function ChatPageClient({
         ) : (
           /* No conversation selected — placeholder */
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
-            <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+            <div className="h-20 w-20 rounded-full bg-primary/10 ring-1 ring-primary/20 flex items-center justify-center mb-4">
               <MessageSquare className="h-10 w-10 text-primary" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Your Messages</h3>
+            <h3 className="text-xl font-semibold text-white mb-2">
+              Your Messages
+            </h3>
             <p className="text-muted-foreground max-w-sm">
               Select a conversation from the sidebar or message someone from the
               applications page.

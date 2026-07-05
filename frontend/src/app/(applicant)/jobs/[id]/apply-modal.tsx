@@ -37,9 +37,7 @@ export function ApplyModal({ jobId, applicantData }: ApplyModalProps) {
     linkedInUrl: applicantData?.linkedInUrl || "",
     githubUrl: applicantData?.githubUrl || "",
     portfolioUrl: applicantData?.websiteUrl || "",
-    yearsOfExperience: applicantData?.experience
-      ? "Sample extracted experience"
-      : "", // In real life might be simpler string
+    yearsOfExperience: "",
     coverLetter: "",
   });
 
@@ -77,20 +75,22 @@ export function ApplyModal({ jobId, applicantData }: ApplyModalProps) {
       <DialogTrigger asChild>
         <Button
           size="lg"
-          className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg px-8 h-10 w-full sm:w-auto"
+          className="border-0 bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg shadow-violet-500/30 transition-all hover:from-violet-500 hover:to-purple-500 hover:shadow-violet-500/50 px-8 h-10 w-full sm:w-auto"
         >
           Apply Now
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto border-white/[0.08] bg-[#0a0a0f]/95 backdrop-blur-xl">
         <DialogHeader>
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-              <Briefcase className="h-5 w-5 text-primary" />
+            <div className="h-10 w-10 rounded-full bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+              <Briefcase className="h-5 w-5 text-violet-300" />
             </div>
             <div>
-              <DialogTitle className="text-xl">Submit Application</DialogTitle>
-              <DialogDescription>
+              <DialogTitle className="text-xl text-foreground">
+                Submit Application
+              </DialogTitle>
+              <DialogDescription className="text-muted-foreground">
                 Make sure your contact information and links are up to date.
               </DialogDescription>
             </div>
@@ -178,8 +178,8 @@ export function ApplyModal({ jobId, applicantData }: ApplyModalProps) {
           <div className="space-y-2">
             <Label>Resume / CV *</Label>
             {resumeUrl ? (
-              <div className="p-4 border rounded-lg bg-muted flex items-center justify-between">
-                <span className="text-sm font-medium text-primary">
+              <div className="p-4 rounded-lg border border-white/[0.08] bg-white/[0.03] flex items-center justify-between">
+                <span className="text-sm font-medium text-emerald-300">
                   Resume uploaded successfully
                 </span>
                 <Button
@@ -219,19 +219,20 @@ export function ApplyModal({ jobId, applicantData }: ApplyModalProps) {
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t">
+          <div className="flex justify-end gap-3 pt-4 border-t border-white/[0.06]">
             <Button
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
               disabled={isLoading}
+              className="border-white/10 bg-transparent hover:bg-white/[0.05] hover:border-violet-500/40"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
+              className="border-0 bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg shadow-violet-500/30 transition-all hover:from-violet-500 hover:to-purple-500 hover:shadow-violet-500/50"
             >
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Submit Application

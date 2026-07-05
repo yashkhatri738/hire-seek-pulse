@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Eye, EyeOff, Loader2, UserPlus, Briefcase } from "lucide-react";
+import { Eye, EyeOff, Loader2, UserPlus, Sparkles } from "lucide-react";
 
 import {
   registerUserWithConfirmSchema,
@@ -65,7 +65,6 @@ export default function RegisterPage() {
     const { confirmPassword: _, ...payload } = data;
     const result = await registrationAction(payload);
 
-    console.log("result", result);
     if (result.status === "ERROR") {
       setServerError(result.message);
       return;
@@ -77,25 +76,19 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Animated background blobs */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/30 to-background" />
-      <div className="absolute top-1/4 -left-40 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-40 w-96 h-96 rounded-full bg-secondary/10 blur-3xl pointer-events-none" />
-
-      <div className="relative w-full max-w-lg py-8">
-        {/* Logo / Brand */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary mb-4 shadow-lg">
-            <Briefcase className="w-7 h-7 text-white" />
-          </div>
-          <h1 className="text-2xl font-bold gradient-text">HireNest</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Your career journey starts here
-          </p>
+    <div className="mx-auto w-full max-w-lg">
+      {/* Logo / Brand */}
+      <div className="mb-8 text-center">
+        <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-pink-600 shadow-lg glow-md">
+          <Sparkles className="h-7 w-7 text-white" />
         </div>
+        <h1 className="text-2xl font-bold gradient-text">HireNest</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Your career journey starts here
+        </p>
+      </div>
 
-        <Card className="glass-strong card-shadow border-border/40">
+      <Card className="glass-strong card-shadow border-0">
           <CardHeader className="space-y-1 pb-4">
             <CardTitle className="text-2xl font-semibold text-center">
               Create an account
@@ -299,7 +292,7 @@ export default function RegisterPage() {
                 {/* Submit */}
                 <Button
                   type="submit"
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold h-11 mt-2"
+                  className="mt-2 h-11 w-full border-0 bg-gradient-to-r from-violet-600 to-purple-600 font-semibold text-white shadow-lg shadow-violet-500/30 transition-all hover:from-violet-500 hover:to-purple-500 hover:shadow-violet-500/50"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
@@ -329,7 +322,6 @@ export default function RegisterPage() {
             </p>
           </CardContent>
         </Card>
-      </div>
     </div>
   );
 }

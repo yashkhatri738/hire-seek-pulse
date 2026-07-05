@@ -2,6 +2,7 @@ import { getJobById } from "@/lib/action/employer/job.action";
 import { JobForm } from "../../../../components/employer/job-form";
 import { notFound } from "next/navigation";
 import { JobFormData } from "@/lib/schemaValidation/job.schema";
+import { Pencil } from "lucide-react";
 
 interface EditJobPageProps {
   params: Promise<{ id: string }>;
@@ -46,9 +47,17 @@ export default async function EditJobPage({ params }: EditJobPageProps) {
   return (
     <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground">Edit Job: {job.title}</h1>
-        <p className="text-muted-foreground mt-2">
-          Update the details for this job listing to attract the right candidates.
+        <div className="flex items-center gap-3 mb-1">
+          <div className="h-10 w-10 rounded-xl bg-violet-500/10 text-violet-300 border border-violet-500/20 flex items-center justify-center shrink-0">
+            <Pencil className="h-5 w-5" />
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight text-white">
+            Edit Job: <span className="gradient-text">{job.title}</span>
+          </h1>
+        </div>
+        <p className="text-muted-foreground mt-2 ml-[52px]">
+          Update the details for this job listing to attract the right
+          candidates.
         </p>
       </div>
 

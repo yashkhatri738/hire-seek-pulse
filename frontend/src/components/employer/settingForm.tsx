@@ -61,40 +61,46 @@ const EmployerSettingsForm = ({
     resolver: zodResolver(employerProfileSchema),
   });
 
-  const onError = (errors: any) => {
-    console.log("FORM ERRORS", errors);
-  };
+  const onError = () => {};
 
   const handleFormSubmit = async (data: EmployerProfileData) => {
-    console.log("Submitting employer profile: ", data);
     try {
       const response = await updateEmployerDetails(data);
-      console.log("updateEmployerProfileAction response:", response);
       if (response?.status === "SUCCESS") {
         toast.success(response.message || "Saved");
       } else {
         toast.error(response?.message || "Failed to save");
       }
     } catch (err) {
-      console.error("Error updating employer profile:", err);
       toast.error(err instanceof Error ? err.message : String(err));
     }
   };
 
   return (
-    <Card className="w-full border-none shadow-sm pb-8">
+    <Card className="w-full border-white/[0.06] bg-white/[0.03] backdrop-blur-sm pb-8">
       <CardContent className="p-6 md:p-8">
         <form
           onSubmit={handleSubmit(handleFormSubmit, onError)}
-          className="space-y-6"
+          className="space-y-8"
         >
-          <div className="space-y-2">
+          {/* MEDIA SECTION */}
+          <div className="space-y-5">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-pink-500/20 bg-pink-500/10 text-pink-300">
+                <Camera className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-white">Company Media</h3>
+                <p className="text-sm text-muted-foreground">Your logo and banner shown on your profile.</p>
+              </div>
+            </div>
+
             <div className="space-y-6">
               {/* AVATAR */}
               <div className="flex items-center gap-6">
                 <div className="relative w-28 h-28">
                   {/* Avatar Image */}
-                  <div className="w-full h-full rounded-full overflow-hidden border bg-muted">
+                  <div className="w-full h-full rounded-full overflow-hidden border border-white/[0.08] bg-white/[0.03]">
                     {watch("avatarUrl") ? (
                       <img
                         src={watch("avatarUrl")}
@@ -114,7 +120,7 @@ const EmployerSettingsForm = ({
                       endpoint="imageUploader"
                       appearance={{
                         button:
-                          "w-9 h-9 rounded-full bg-primary text-white shadow-md hover:scale-105 transition flex items-center justify-center",
+                          "w-9 h-9 rounded-full bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg shadow-violet-500/30 hover:scale-105 transition flex items-center justify-center",
                         allowedContent: "hidden",
                       }}
                       content={{
@@ -135,7 +141,7 @@ const EmployerSettingsForm = ({
                 </div>
 
                 <div>
-                  <p className="text-sm font-medium">Company Logo</p>
+                  <p className="text-sm font-medium text-foreground">Company Logo</p>
                   <p className="text-xs text-muted-foreground">
                     Click camera to upload logo
                   </p>
@@ -143,7 +149,7 @@ const EmployerSettingsForm = ({
               </div>
 
               {/* BANNER */}
-              <div className="relative w-full h-40 rounded-lg overflow-hidden border bg-muted">
+              <div className="relative w-full h-40 rounded-xl overflow-hidden border border-white/[0.08] bg-white/[0.03]">
                 {watch("bannerImageUrl") ? (
                   <img
                     src={watch("bannerImageUrl")}
@@ -156,13 +162,16 @@ const EmployerSettingsForm = ({
                   </div>
                 )}
 
+                {/* Subtle overlay for legibility over the image */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+
                 {/* Banner Upload */}
                 <div className="absolute bottom-3 right-3">
                   <UploadButton
                     endpoint="imageUploader"
                     appearance={{
                       button:
-                        "w-10 h-10 rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/80 transition flex items-center justify-center",
+                        "w-10 h-10 rounded-full bg-background/60 text-white border border-white/10 backdrop-blur hover:bg-background/80 transition flex items-center justify-center",
                       allowedContent: "hidden",
                     }}
                     content={{
@@ -182,22 +191,36 @@ const EmployerSettingsForm = ({
                 </div>
               </div>
             </div>
-
-            <Label htmlFor="companyName">Company Name *</Label>
-            <div className="relative">
-              <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                id="companyName"
-                type="text"
-                placeholder="Enter company name"
-                className={`pl-10 ${errors.name ? "border-destructive" : ""} `}
-                {...register("name")}
-              />
-            </div>
-            {errors.name && (
-              <p className="text-sm text-destructive">{errors.name.message}</p>
-            )}
           </div>
+
+          {/* COMPANY INFORMATION SECTION */}
+          <div className="space-y-6">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-violet-500/20 bg-violet-500/10 text-violet-300">
+                <Building2 className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-white">Company Information</h3>
+                <p className="text-sm text-muted-foreground">Tell candidates about your organization.</p>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="companyName" className="text-foreground">Company Name *</Label>
+              <div className="relative">
+                <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  id="companyName"
+                  type="text"
+                  placeholder="Enter company name"
+                  className={`pl-10 ${errors.name ? "border-destructive" : ""} `}
+                  {...register("name")}
+                />
+              </div>
+              {errors.name && (
+                <p className="text-sm text-destructive">{errors.name.message}</p>
+              )}
+            </div>
 
           <div className="space-y-2">
             <Controller
@@ -355,8 +378,14 @@ const EmployerSettingsForm = ({
               </p>
             )}
           </div>
-          <div className="flex items-center gap-4 pt-4">
-            <Button type="submit" disabled={isSubmitting}>
+          </div>
+
+          <div className="flex items-center gap-4 border-t border-white/[0.06] pt-6">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="border-0 bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg shadow-violet-500/30 hover:from-violet-500 hover:to-purple-500"
+            >
               {isSubmitting && <Loader className="w-4 h-4 animate-spin" />}
               {isSubmitting ? "Saving Changes..." : "Save Changes"}
             </Button>

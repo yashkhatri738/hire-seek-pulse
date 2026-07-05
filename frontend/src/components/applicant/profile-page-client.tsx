@@ -17,7 +17,9 @@ export function ProfilePageClient({ profile }: ProfilePageClientProps) {
       {/* Header with tabs */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Your Profile</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-white">
+            Your <span className="gradient-text">Profile</span>
+          </h1>
           <p className="text-muted-foreground mt-1">
             View and manage your professional profile.
           </p>
@@ -25,12 +27,20 @@ export function ProfilePageClient({ profile }: ProfilePageClientProps) {
       </div>
 
       <Tabs defaultValue="view" className="w-full">
-        <TabsList className="grid w-full max-w-xs grid-cols-2 h-11 bg-muted/70 p-1">
-          <TabsTrigger value="view" className="gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm h-9" id="tab-view">
+        <TabsList className="glass grid w-full max-w-xs grid-cols-2 h-11 p-1">
+          <TabsTrigger
+            value="view"
+            className="h-9 gap-2 text-muted-foreground data-[state=active]:bg-gradient-to-r data-[state=active]:from-violet-600 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-violet-500/30"
+            id="tab-view"
+          >
             <Eye className="h-4 w-4" />
             View
           </TabsTrigger>
-          <TabsTrigger value="edit" className="gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm h-9" id="tab-edit">
+          <TabsTrigger
+            value="edit"
+            className="h-9 gap-2 text-muted-foreground data-[state=active]:bg-gradient-to-r data-[state=active]:from-violet-600 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-violet-500/30"
+            id="tab-edit"
+          >
             <Pencil className="h-4 w-4" />
             Edit
           </TabsTrigger>

@@ -2,9 +2,9 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { formatSalary, timeAgo, humanize } from "@/lib/ui";
 import {
   Card,
   CardContent,
@@ -25,7 +25,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { MapPin, Clock, Sparkles, Pencil, Trash2, Loader2 } from "lucide-react";
+import {
+  MapPin,
+  Clock,
+  Sparkles,
+  Pencil,
+  Trash2,
+  Loader2,
+  Wallet,
+} from "lucide-react";
 import { deleteJob } from "@/lib/action/employer/job.action";
 
 interface JobCardProps {
@@ -39,6 +47,10 @@ interface JobCardProps {
     workType: string | null;
     isFeatured: boolean;
     createdAt: Date | string;
+    minSalary?: number | null;
+    maxSalary?: number | null;
+    salaryCurrency?: string | null;
+    salaryPeriod?: string | null;
   };
 }
 
@@ -46,6 +58,13 @@ export function JobCard({ job }: JobCardProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+  const salary = formatSalary(
+    job.minSalary,
+    job.maxSalary,
+    job.salaryCurrency,
+    job.salaryPeriod,
+  );
 
   const handleDelete = () => {
     startTransition(async () => {
@@ -62,7 +81,7 @@ export function JobCard({ job }: JobCardProps) {
               : "Failed to delete job",
           );
         }
-      } catch (error) {
+      } catch {
         toast.error("Something went wrong. Please try again.");
       } finally {
         setShowDeleteDialog(false);
@@ -72,26 +91,34 @@ export function JobCard({ job }: JobCardProps) {
 
   return (
     <>
-      <Card className="flex flex-col h-full border card-shadow hover:card-shadow-hover transition-all duration-300 hover:-translate-y-0.5 overflow-hidden group">
+      <Card className="group flex flex-col h-full overflow-hidden border-white/[0.06] bg-white/[0.03] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-violet-500/30 hover:shadow-lg hover:shadow-violet-500/10">
         <CardHeader className="pb-3">
           <div className="flex justify-between items-start gap-2">
             <div className="space-y-1 min-w-0">
-              <CardTitle className="text-lg line-clamp-1">
+              <CardTitle className="text-lg line-clamp-1 text-white transition-colors group-hover:text-violet-200">
                 {job.title}
               </CardTitle>
-              <CardDescription className="flex items-center gap-2 text-xs">
+              <CardDescription className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1">
                   <MapPin className="h-3 w-3" /> {job.location || "Remote"}
                 </span>
-                <span>·</span>
-                <span className="flex items-center gap-1 capitalize">
-                  <Clock className="h-3 w-3" /> {job.jobType}
+                <span className="text-white/20">·</span>
+                <span className="flex items-center gap-1">
+                  <Clock className="h-3 w-3" /> {humanize(job.jobType)}
                 </span>
+                {salary && (
+                  <>
+                    <span className="text-white/20">·</span>
+                    <span className="flex items-center gap-1 text-emerald-300">
+                      <Wallet className="h-3 w-3" /> {salary}
+                    </span>
+                  </>
+                )}
               </CardDescription>
             </div>
             <div className="flex items-center gap-1.5 shrink-0">
               {job.isFeatured && (
-                <Badge className="bg-amber-500/10 text-amber-600 border-0 text-[10px]">
+                <Badge className="border border-amber-500/20 bg-amber-500/10 text-amber-300 text-[10px]">
                   <Sparkles className="h-3 w-3 mr-0.5" /> Featured
                 </Badge>
               )}
@@ -106,30 +133,30 @@ export function JobCard({ job }: JobCardProps) {
             {job.jobLevel && (
               <Badge
                 variant="outline"
-                className="text-[10px] capitalize font-normal"
+                className="text-[10px] font-normal border-white/[0.08] bg-white/[0.04] text-muted-foreground"
               >
-                {job.jobLevel}
+                {humanize(job.jobLevel)}
               </Badge>
             )}
             {job.workType && (
               <Badge
                 variant="outline"
-                className="text-[10px] capitalize font-normal border-primary/20 text-primary"
+                className="text-[10px] font-normal border-violet-500/20 bg-violet-500/10 text-violet-300"
               >
-                {job.workType.replace("-", " ")}
+                {humanize(job.workType)}
               </Badge>
             )}
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between items-center border-t border-border/60 p-4 bg-muted/20">
+        <CardFooter className="flex justify-between items-center border-t border-white/[0.06] p-4 bg-white/[0.02]">
           <span className="text-[11px] text-muted-foreground">
-            Posted {format(new Date(job.createdAt), "MMM d, yyyy")}
+            Posted {timeAgo(job.createdAt)}
           </span>
           <div className="flex gap-2">
             <Button
               size="sm"
               variant="ghost"
-              className="h-8 px-3 text-xs hover:bg-primary hover:text-primary-foreground"
+              className="h-8 px-3 text-xs text-muted-foreground hover:bg-violet-500/10 hover:text-violet-200"
               asChild
             >
               <Link href={`/employer/postjob/${job.id}`}>
@@ -140,7 +167,7 @@ export function JobCard({ job }: JobCardProps) {
             <Button
               size="sm"
               variant="ghost"
-              className="h-8 px-3 text-xs hover:bg-destructive hover:text-destructive-foreground"
+              className="h-8 px-3 text-xs text-muted-foreground hover:bg-destructive/15 hover:text-destructive"
               onClick={(e) => {
                 e.preventDefault();
                 setShowDeleteDialog(true);

@@ -1,15 +1,33 @@
-import { cookies } from "next/headers";
 import { cache } from "react";
-import { validSessionAndGetUser } from "../user-case/session";
+import { createSupabaseServerClient } from "../supabase";
+
 export const getCurrentUser = cache(async () => {
   try {
-    const cookie = await cookies();
-    const session = cookie.get("session")?.value;
+    const supabase = await createSupabaseServerClient();
+    const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
 
-    if (!session) return null;
+    if (authError || !authUser) return null;
 
-    const user = await validSessionAndGetUser(session);
-    return user;
+    // Fetch corresponding public profile
+    const { data: userProfile, error: profileError } = await supabase
+      .from("users")
+      .select("id, name, username, email, role, phone_number, avatar_url, created_at, updated_at")
+      .eq("id", authUser.id)
+      .maybeSingle();
+
+    if (profileError || !userProfile) return null;
+
+    return {
+      id: userProfile.id,
+      name: userProfile.name,
+      userName: userProfile.username,
+      email: userProfile.email,
+      role: userProfile.role,
+      phoneNumber: userProfile.phone_number,
+      avatarUrl: userProfile.avatar_url,
+      createdAt: new Date(userProfile.created_at),
+      updatedAt: new Date(userProfile.updated_at),
+    };
   } catch (error) {
     console.error("getCurrentUser error:", error);
     return null; 

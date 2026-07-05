@@ -120,15 +120,15 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
           {/* Left Column: Main content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Profile Photo Upload */}
-            <Card className="card-shadow border-0">
+            <Card className="glass-card card-shadow">
               <CardContent className="pt-6">
-                <h3 className="text-lg font-semibold border-b pb-2 mb-4 flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-primary" />
+                <h3 className="text-lg font-semibold text-white border-b border-white/[0.06] pb-2 mb-4 flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-gradient-to-r from-violet-500 to-pink-500" />
                   Profile Photo
                 </h3>
                 <div className="flex items-center gap-6">
                   <div className="relative w-24 h-24">
-                    <div className="w-full h-full rounded-full overflow-hidden border-2 border-border bg-muted">
+                    <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/[0.1] bg-white/[0.04]">
                       {form.watch("avatarUrl") ? (
                         <img
                           src={form.watch("avatarUrl") || ""}
@@ -146,7 +146,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                         endpoint="imageUploader"
                         appearance={{
                           button:
-                            "w-8 h-8 rounded-full bg-primary text-white shadow-md hover:scale-105 transition flex items-center justify-center",
+                            "w-8 h-8 rounded-full bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-md shadow-violet-500/30 hover:scale-105 transition flex items-center justify-center",
                           allowedContent: "hidden",
                         }}
                         content={{
@@ -168,7 +168,9 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                     </div>
                   </div>
                   <div>
-                    <p className="text-sm font-medium">Upload your photo</p>
+                    <p className="text-sm font-medium text-white">
+                      Upload your photo
+                    </p>
                     <p className="text-xs text-muted-foreground mt-0.5">
                       Click the camera icon to change your profile picture. Max
                       4MB.
@@ -179,10 +181,10 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
             </Card>
 
             {/* Personal Info */}
-            <Card className="card-shadow border-0">
+            <Card className="glass-card card-shadow">
               <CardContent className="pt-6 space-y-4">
-                <h3 className="text-lg font-semibold border-b pb-2 mb-4 flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-primary" />
+                <h3 className="text-lg font-semibold text-white border-b border-white/[0.06] pb-2 mb-4 flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-gradient-to-r from-violet-500 to-pink-500" />
                   Personal Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -293,18 +295,18 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
             </Card>
 
             {/* Work Experience */}
-            <Card className="card-shadow border-0">
+            <Card className="glass-card card-shadow">
               <CardContent className="pt-6 space-y-4">
-                <div className="flex items-center justify-between border-b pb-2 mb-4">
-                  <h3 className="text-lg font-semibold flex items-center gap-2">
-                    <Briefcase className="h-5 w-5 text-primary" />
+                <div className="flex items-center justify-between border-b border-white/[0.06] pb-2 mb-4">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <Briefcase className="h-5 w-5 text-violet-400" />
                     Work Experience
                   </h3>
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="gap-2"
+                    className="gap-2 border-white/10 bg-transparent hover:bg-white/[0.05]"
                     onClick={() =>
                       appendExp({
                         role: "",
@@ -323,7 +325,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                   {expFields.map((field, index) => (
                     <div
                       key={field.id}
-                      className="p-4 rounded-xl border bg-muted/30 relative space-y-4"
+                      className="p-4 rounded-xl border border-white/[0.06] bg-white/[0.03] relative space-y-4"
                     >
                       <Button
                         type="button"
@@ -402,7 +404,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                     </div>
                   ))}
                   {expFields.length === 0 && (
-                    <div className="text-center py-6 text-muted-foreground border-2 border-dashed rounded-xl">
+                    <div className="text-center py-6 text-muted-foreground border-2 border-dashed border-white/[0.12] rounded-xl">
                       No experience added yet. Click &quot;Add&quot; to begin.
                     </div>
                   )}
@@ -411,18 +413,18 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
             </Card>
 
             {/* Education */}
-            <Card className="card-shadow border-0">
+            <Card className="glass-card card-shadow">
               <CardContent className="pt-6 space-y-4">
-                <div className="flex items-center justify-between border-b pb-2 mb-4">
-                  <h3 className="text-lg font-semibold flex items-center gap-2">
-                    <GraduationCap className="h-5 w-5 text-primary" />
+                <div className="flex items-center justify-between border-b border-white/[0.06] pb-2 mb-4">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <GraduationCap className="h-5 w-5 text-violet-400" />
                     Education
                   </h3>
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="gap-2"
+                    className="gap-2 border-white/10 bg-transparent hover:bg-white/[0.05]"
                     onClick={() =>
                       appendEdu({ school: "", degree: "", year: "", grade: "" })
                     }
@@ -435,7 +437,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                   {eduFields.map((field, index) => (
                     <div
                       key={field.id}
-                      className="p-4 rounded-xl border bg-muted/30 relative space-y-4"
+                      className="p-4 rounded-xl border border-white/[0.06] bg-white/[0.03] relative space-y-4"
                     >
                       <Button
                         type="button"
@@ -510,7 +512,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                     </div>
                   ))}
                   {eduFields.length === 0 && (
-                    <div className="text-center py-6 text-muted-foreground border-2 border-dashed rounded-xl">
+                    <div className="text-center py-6 text-muted-foreground border-2 border-dashed border-white/[0.12] rounded-xl">
                       No education added yet.
                     </div>
                   )}
@@ -519,18 +521,18 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
             </Card>
 
             {/* Projects */}
-            <Card className="card-shadow border-0">
+            <Card className="glass-card card-shadow">
               <CardContent className="pt-6 space-y-4">
-                <div className="flex items-center justify-between border-b pb-2 mb-4">
-                  <h3 className="text-lg font-semibold flex items-center gap-2">
-                    <FolderKanban className="h-5 w-5 text-primary" />
+                <div className="flex items-center justify-between border-b border-white/[0.06] pb-2 mb-4">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <FolderKanban className="h-5 w-5 text-violet-400" />
                     Projects
                   </h3>
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="gap-2"
+                    className="gap-2 border-white/10 bg-transparent hover:bg-white/[0.05]"
                     onClick={() =>
                       appendProj({
                         name: "",
@@ -548,7 +550,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                   {projFields.map((field, index) => (
                     <div
                       key={field.id}
-                      className="p-4 rounded-xl border bg-muted/30 relative space-y-4"
+                      className="p-4 rounded-xl border border-white/[0.06] bg-white/[0.03] relative space-y-4"
                     >
                       <Button
                         type="button"
@@ -627,7 +629,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                     </div>
                   ))}
                   {projFields.length === 0 && (
-                    <div className="text-center py-6 text-muted-foreground border-2 border-dashed rounded-xl">
+                    <div className="text-center py-6 text-muted-foreground border-2 border-dashed border-white/[0.12] rounded-xl">
                       No projects added yet.
                     </div>
                   )}
@@ -638,9 +640,9 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
 
           {/* Right Column: Sidebar info */}
           <div className="space-y-6">
-            <Card className="card-shadow border-0">
+            <Card className="glass-card card-shadow">
               <CardContent className="pt-6 space-y-4">
-                <h3 className="text-lg font-semibold border-b pb-2 mb-4">
+                <h3 className="text-lg font-semibold text-white border-b border-white/[0.06] pb-2 mb-4">
                   Profile Details
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
@@ -744,9 +746,9 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
               </CardContent>
             </Card>
 
-            <Card className="card-shadow border-0">
+            <Card className="glass-card card-shadow">
               <CardContent className="pt-6 space-y-4">
-                <h3 className="text-lg font-semibold border-b pb-2 mb-4">
+                <h3 className="text-lg font-semibold text-white border-b border-white/[0.06] pb-2 mb-4">
                   Web & Links
                 </h3>
                 <FormField
@@ -792,7 +794,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
             <div className="sticky top-6">
               <Button
                 type="submit"
-                className="w-full h-12 text-lg shadow-lg bg-primary text-primary-foreground hover:bg-primary/90"
+                className="w-full h-12 text-lg border-0 bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg shadow-violet-500/30 hover:from-violet-500 hover:to-purple-500"
                 disabled={isPending}
               >
                 {isPending ? (

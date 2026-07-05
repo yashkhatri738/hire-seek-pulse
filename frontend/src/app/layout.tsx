@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "HireNest – AI-Powered Job Matching",
@@ -14,9 +15,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <body className="min-h-screen bg-background font-sans antialiased">
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   );

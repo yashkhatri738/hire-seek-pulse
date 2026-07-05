@@ -3,8 +3,6 @@ import { getJobById } from "@/lib/action/employer/job.action";
 import { getApplicantProfile } from "@/lib/action/applicant/profile.action";
 import { ApplyModal } from "./apply-modal";
 import { notFound } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -18,8 +16,6 @@ import {
   Building2,
   Users,
   GraduationCap,
-  Bookmark,
-  Share2,
   ExternalLink,
   Zap,
   TrendingUp,
@@ -27,15 +23,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
+import { formatSalary, humanize } from "@/lib/ui";
 
 interface PageProps {
   params: Promise<{ id: string }>;
-}
-
-function formatSalary(amount: number): string {
-  if (amount >= 100000) return `${(amount / 100000).toFixed(1)}L`;
-  if (amount >= 1000) return `${(amount / 1000).toFixed(0)}K`;
-  return amount.toLocaleString();
 }
 
 export default async function JobDetailsPage({ params }: PageProps) {
@@ -53,6 +44,13 @@ export default async function JobDetailsPage({ params }: PageProps) {
   const { job, employer } = result.data[0];
   const applicantData = await getApplicantProfile();
 
+  const salary = formatSalary(
+    job.minSalary,
+    job.maxSalary,
+    job.salaryCurrency,
+    job.salaryPeriod,
+  );
+
   return (
     <div className="max-w-[1200px] mx-auto py-4 space-y-6 overflow-hidden">
       {/* Back link */}
@@ -68,15 +66,15 @@ export default async function JobDetailsPage({ params }: PageProps) {
         {/* ─── MAIN CONTENT ────────────────────────────── */}
         <div className="lg:col-span-2 space-y-6">
           {/* Hero Card */}
-          <Card className="border-0 card-shadow overflow-hidden">
+          <Card className="border-white/[0.06] bg-white/[0.03] backdrop-blur-sm overflow-hidden">
             {/* Accent strip */}
-            <div className="h-1 bg-primary" />
+            <div className="h-1 bg-gradient-to-r from-violet-600 to-pink-600" />
 
             <CardContent className="p-6 sm:p-8">
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-5">
                 <div className="flex items-start gap-4">
                   {/* Company logo */}
-                  <div className="h-16 w-16 rounded-2xl bg-muted flex items-center justify-center shrink-0 border border-border/60 overflow-hidden">
+                  <div className="h-16 w-16 rounded-2xl bg-white/[0.04] flex items-center justify-center shrink-0 border border-white/[0.08] overflow-hidden">
                     {employer?.avatarUrl ? (
                       <img
                         src={employer.avatarUrl}
@@ -90,20 +88,17 @@ export default async function JobDetailsPage({ params }: PageProps) {
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       {job.isFeatured && (
-                        <Badge className="bg-amber-50 text-amber-600 dark:bg-amber-950 dark:text-amber-400 border-0 text-[10px]">
-                          <Zap className="h-3 w-3 mr-1" /> Featured
-                        </Badge>
+                        <span className="inline-flex items-center gap-1 rounded-md bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium text-amber-300 ring-1 ring-amber-500/25">
+                          <Zap className="h-3 w-3" /> Featured
+                        </span>
                       )}
                       {job.workType && (
-                        <Badge
-                          variant="outline"
-                          className="capitalize text-[10px]"
-                        >
+                        <span className="capitalize rounded-md border border-white/[0.08] bg-white/[0.04] px-2 py-0.5 text-[10px] text-muted-foreground">
                           {job.workType.replace("-", " ")}
-                        </Badge>
+                        </span>
                       )}
                     </div>
-                    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mt-2 break-words">
+                    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mt-2 break-words text-foreground">
                       {job.title}
                     </h1>
                     <p className="text-muted-foreground text-base mt-1">
@@ -113,49 +108,41 @@ export default async function JobDetailsPage({ params }: PageProps) {
                 </div>
 
                 <div className="flex gap-2 shrink-0">
-                  <Button variant="outline" size="icon" className="h-10 w-10">
-                    <Bookmark className="h-4 w-4" />
-                  </Button>
-                  <Button variant="outline" size="icon" className="h-10 w-10">
-                    <Share2 className="h-4 w-4" />
-                  </Button>
                   <ApplyModal jobId={jobId} applicantData={applicantData} />
                 </div>
               </div>
 
               {/* Info pills */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
-                <div className="p-3 rounded-xl bg-muted/40 space-y-1">
+                <div className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02] space-y-1">
                   <p className="text-[11px] text-muted-foreground flex items-center gap-1">
                     <MapPin className="h-3 w-3" /> Location
                   </p>
-                  <p className="text-sm font-medium">
+                  <p className="text-sm font-medium text-foreground">
                     {job.location || "Remote"}
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-muted/40 space-y-1">
+                <div className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02] space-y-1">
                   <p className="text-[11px] text-muted-foreground flex items-center gap-1">
                     <Globe className="h-3 w-3" /> Job Mode
                   </p>
-                  <p className="text-sm font-medium capitalize">
+                  <p className="text-sm font-medium capitalize text-foreground">
                     {job.jobType || "—"}
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-muted/40 space-y-1">
+                <div className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02] space-y-1">
                   <p className="text-[11px] text-muted-foreground flex items-center gap-1">
                     <IndianRupee className="h-3 w-3" /> Salary
                   </p>
-                  <p className="text-sm font-medium">
-                    {job.minSalary
-                      ? `₹${formatSalary(job.minSalary)} – ₹${formatSalary(job.maxSalary || 0)}`
-                      : "Not disclosed"}
+                  <p className="text-sm font-medium text-foreground">
+                    {salary || "Not disclosed"}
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-muted/40 space-y-1">
+                <div className="p-3 rounded-xl border border-white/[0.06] bg-white/[0.02] space-y-1">
                   <p className="text-[11px] text-muted-foreground flex items-center gap-1">
                     <Calendar className="h-3 w-3" /> Posted
                   </p>
-                  <p className="text-sm font-medium">
+                  <p className="text-sm font-medium text-foreground">
                     {format(new Date(job.createdAt), "MMM d, yyyy")}
                   </p>
                 </div>
@@ -164,13 +151,13 @@ export default async function JobDetailsPage({ params }: PageProps) {
           </Card>
 
           {/* Description Card */}
-          <Card className="border-0 card-shadow overflow-hidden">
+          <Card className="border-white/[0.06] bg-white/[0.03] backdrop-blur-sm overflow-hidden">
             <CardContent className="p-6 sm:p-8 overflow-hidden">
-              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Briefcase className="h-5 w-5 text-primary" />
+              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2 text-foreground">
+                <Briefcase className="h-5 w-5 text-violet-400" />
                 Job Description
               </h2>
-              <div className="prose prose-slate max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap text-sm break-words overflow-wrap-anywhere [overflow-wrap:anywhere] [word-break:break-word]">
+              <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap text-sm break-words overflow-wrap-anywhere [overflow-wrap:anywhere] [word-break:break-word]">
                 {job.description}
               </div>
             </CardContent>
@@ -178,53 +165,55 @@ export default async function JobDetailsPage({ params }: PageProps) {
 
           {/* Requirements */}
           {(job.experience || job.minEducation || job.jobLevel) && (
-            <Card className="border-0 card-shadow">
+            <Card className="border-white/[0.06] bg-white/[0.03] backdrop-blur-sm">
               <CardContent className="p-6 sm:p-8">
-                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <CheckCircle2 className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2 text-foreground">
+                  <CheckCircle2 className="h-5 w-5 text-violet-400" />
                   Requirements
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {job.jobLevel && (
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/40">
-                      <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <TrendingUp className="h-4 w-4 text-primary" />
+                    <div className="flex items-center gap-3 p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+                      <div className="h-9 w-9 rounded-lg bg-violet-500/10 border border-violet-500/15 flex items-center justify-center">
+                        <TrendingUp className="h-4 w-4 text-violet-300" />
                       </div>
                       <div>
                         <p className="text-[11px] text-muted-foreground">
                           Level
                         </p>
-                        <p className="text-sm font-medium capitalize">
-                          {job.jobLevel}
+                        <p className="text-sm font-medium text-foreground">
+                          {humanize(job.jobLevel)}
                         </p>
                       </div>
                     </div>
                   )}
                   {job.minEducation && (
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/40">
-                      <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <GraduationCap className="h-4 w-4 text-primary" />
+                    <div className="flex items-center gap-3 p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+                      <div className="h-9 w-9 rounded-lg bg-violet-500/10 border border-violet-500/15 flex items-center justify-center">
+                        <GraduationCap className="h-4 w-4 text-violet-300" />
                       </div>
                       <div>
                         <p className="text-[11px] text-muted-foreground">
                           Education
                         </p>
-                        <p className="text-sm font-medium capitalize">
-                          {job.minEducation}
+                        <p className="text-sm font-medium text-foreground">
+                          {humanize(job.minEducation)}
                         </p>
                       </div>
                     </div>
                   )}
                   {job.experience && (
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/40">
-                      <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <Briefcase className="h-4 w-4 text-primary" />
+                    <div className="flex items-center gap-3 p-3 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+                      <div className="h-9 w-9 rounded-lg bg-violet-500/10 border border-violet-500/15 flex items-center justify-center">
+                        <Briefcase className="h-4 w-4 text-violet-300" />
                       </div>
                       <div>
                         <p className="text-[11px] text-muted-foreground">
                           Experience
                         </p>
-                        <p className="text-sm font-medium">{job.experience}</p>
+                        <p className="text-sm font-medium text-foreground">
+                          {job.experience}
+                        </p>
                       </div>
                     </div>
                   )}
@@ -235,21 +224,20 @@ export default async function JobDetailsPage({ params }: PageProps) {
 
           {/* Skills & Tags */}
           {job.tags && (
-            <Card className="border-0 card-shadow">
+            <Card className="border-white/[0.06] bg-white/[0.03] backdrop-blur-sm">
               <CardContent className="p-6 sm:p-8">
-                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <Zap className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2 text-foreground">
+                  <Zap className="h-5 w-5 text-violet-400" />
                   Skills & Tags
                 </h2>
                 <div className="flex flex-wrap gap-2">
                   {job.tags.split(",").map((tag: string) => (
-                    <Badge
+                    <span
                       key={tag}
-                      variant="secondary"
-                      className="px-3 py-1 bg-primary/10 text-primary border-0"
+                      className="px-3 py-1 rounded-md text-xs font-medium border border-violet-500/15 bg-violet-500/10 text-violet-300"
                     >
                       {tag.trim()}
-                    </Badge>
+                    </span>
                   ))}
                 </div>
               </CardContent>
@@ -260,14 +248,14 @@ export default async function JobDetailsPage({ params }: PageProps) {
         {/* ─── SIDEBAR ─────────────────────────────────── */}
         <div className="space-y-6">
           {/* Company card */}
-          <Card className="border-0 card-shadow">
+          <Card className="border-white/[0.06] bg-white/[0.03] backdrop-blur-sm">
             <CardContent className="p-6 space-y-4">
-              <h3 className="font-semibold text-base flex items-center gap-2">
-                <Building2 className="h-4 w-4 text-primary" />
+              <h3 className="font-semibold text-base flex items-center gap-2 text-foreground">
+                <Building2 className="h-4 w-4 text-violet-400" />
                 About the Company
               </h3>
               <div className="flex items-center gap-3">
-                <div className="h-14 w-14 rounded-xl bg-muted flex items-center justify-center border overflow-hidden shrink-0">
+                <div className="h-14 w-14 rounded-xl bg-white/[0.04] flex items-center justify-center border border-white/[0.08] overflow-hidden shrink-0">
                   {employer?.avatarUrl ? (
                     <img
                       src={employer.avatarUrl}
@@ -279,7 +267,7 @@ export default async function JobDetailsPage({ params }: PageProps) {
                   )}
                 </div>
                 <div>
-                  <p className="font-semibold">
+                  <p className="font-semibold text-foreground">
                     {employer?.name || "Anonymous"}
                   </p>
                   {employer?.organizationType && (
@@ -296,7 +284,7 @@ export default async function JobDetailsPage({ params }: PageProps) {
                 </p>
               )}
 
-              <Separator />
+              <Separator className="bg-white/[0.06]" />
 
               <div className="space-y-3 text-sm">
                 {employer?.location && (
@@ -322,7 +310,7 @@ export default async function JobDetailsPage({ params }: PageProps) {
                     href={employer.websiteUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-3 text-primary hover:underline"
+                    className="flex items-center gap-3 text-violet-300 hover:text-violet-200 hover:underline"
                   >
                     <Globe className="h-4 w-4 shrink-0" />
                     <span>Visit Website</span>
@@ -334,13 +322,13 @@ export default async function JobDetailsPage({ params }: PageProps) {
           </Card>
 
           {/* CTA card */}
-          <Card className="border-0 overflow-hidden">
-            <div className="bg-primary p-6 text-primary-foreground text-center">
+          <Card className="border-white/[0.06] overflow-hidden gradient-border">
+            <div className="bg-gradient-to-br from-violet-600 to-purple-700 p-6 text-white text-center">
               <div className="mx-auto h-12 w-12 rounded-full bg-white/15 flex items-center justify-center mb-3">
                 <Briefcase className="h-5 w-5" />
               </div>
               <h4 className="font-bold text-lg mb-1">Interested?</h4>
-              <p className="text-sm text-primary-foreground/70 mb-5">
+              <p className="text-sm text-white/75 mb-5">
                 Submit your application before this role gets filled.
               </p>
               <div className="w-full relative z-20">
@@ -351,14 +339,14 @@ export default async function JobDetailsPage({ params }: PageProps) {
 
           {/* Expiry info */}
           {job.expiresAt && (
-            <Card className="border-0 card-shadow bg-amber-50/50 dark:bg-amber-950/10">
+            <Card className="border-amber-500/20 bg-amber-500/[0.06] backdrop-blur-sm">
               <CardContent className="p-4 flex items-center gap-3">
-                <Clock className="h-5 w-5 text-amber-600 shrink-0" />
+                <Clock className="h-5 w-5 text-amber-400 shrink-0" />
                 <div>
-                  <p className="text-sm font-medium text-amber-700 dark:text-amber-400">
+                  <p className="text-sm font-medium text-amber-300">
                     Application Deadline
                   </p>
-                  <p className="text-xs text-amber-600/70">
+                  <p className="text-xs text-amber-400/70">
                     {format(new Date(job.expiresAt), "MMMM d, yyyy")}
                   </p>
                 </div>

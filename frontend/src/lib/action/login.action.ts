@@ -1,11 +1,7 @@
 "use server";
 
-import { db } from "@/config/db";
-import { eq, or } from "drizzle-orm";
-import bcrypt from "bcryptjs";
 import { LoginUserData, loginUserSchema } from "../schemaValidation/auth.schema";
-import { users } from "@/drizzle/schema";
-import { createUserSessionAndSetCookies } from "../user-case/session";
+import { createSupabaseServerClient } from "../supabase";
 
 export const loginAction = async (data: LoginUserData) => {
   try {
@@ -16,42 +12,39 @@ export const loginAction = async (data: LoginUserData) => {
         message: parsed.error.issues[0].message,
       };
     }
-    const LoginValidation = parsed.data; 
-    const { email, password } = LoginValidation;
-   
-    const [user] = await db
-        .select()
-        .from(users)
-        .where(eq(users.email,email));
-    
-    if (!user) {
-        console.log("Login attempt: user not found for email:", email);
-        return {
-          status: "ERROR",
-          message: "Invalid email or password",
-        };
-      }
+    const { email, password } = parsed.data;
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const supabase = await createSupabaseServerClient();
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-    if (!isValidPassword) {
+    if (authError || !authData.user) {
       return {
         status: "ERROR",
-        message: "Invalid email or password",
+        message: authError?.message || "Invalid email or password",
       };
     }
 
-    try {
-      await createUserSessionAndSetCookies(user.id);
-    } catch (sessionError) {
-      console.error("Login: session creation error for user id:", user.id, sessionError);
-      throw sessionError; // rethrow so outer catch returns 'Login failed'
+    // Fetch the role from public users table to return for redirection
+    const { data: userProfile, error: profileError } = await supabase
+      .from("users")
+      .select("role")
+      .eq("id", authData.user.id)
+      .maybeSingle();
+
+    if (profileError || !userProfile) {
+      return {
+        status: "ERROR",
+        message: "Failed to retrieve user profile details.",
+      };
     }
 
     return {
       status: "SUCCESS",
       message: "Login successful",
-      role: user.role,
+      role: userProfile.role,
     };
   } catch (error) {
     return {

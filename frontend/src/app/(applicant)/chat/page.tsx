@@ -22,8 +22,8 @@ export default async function ChatPage({ searchParams }: PageProps) {
 
   // If receiverId is present, find or create a conversation with that user
   if (params.receiverId) {
-    const receiverId = parseInt(params.receiverId);
-    if (!isNaN(receiverId) && receiverId !== user.id) {
+    const receiverId = params.receiverId;
+    if (receiverId && receiverId !== user.id) {
       const result = await findOrCreateConversation(receiverId);
       if (result.status === "SUCCESS" && result.data) {
         activeConversationId = result.data;

@@ -8,12 +8,12 @@ export default function PostJobPage() {
     <div className="max-w-5xl mx-auto space-y-6 animate-fade-up">
       <div>
         <div className="flex items-center gap-3 mb-1">
-          <div className="h-10 w-10 rounded-xl bg-violet-100 dark:bg-violet-950 flex items-center justify-center">
-            <Briefcase className="h-5 w-5 text-violet-600" />
+          <div className="h-10 w-10 rounded-xl bg-violet-500/10 text-violet-300 border border-violet-500/20 flex items-center justify-center">
+            <Briefcase className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
-              Post a New Job
+            <h1 className="text-3xl font-bold tracking-tight text-white">
+              Post a <span className="gradient-text">New Job</span>
             </h1>
           </div>
         </div>

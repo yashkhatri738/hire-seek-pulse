@@ -1,27 +1,31 @@
-import { db } from "../config/db";
-import { messages } from "../models/schema";
+import { supabase } from "../config/supabase";
 
 export const saveMessage = async (data: {
-  senderId: number;
+  senderId: number | string;
   conversationId: number;
   content: string;
 }) => {
   const { senderId, conversationId, content } = data;
 
-  const [inserted] = await db
-    .insert(messages)
-    .values({
-      senderId,
-      conversationId,
+  const { data: inserted, error } = await supabase
+    .from("messages")
+    .insert({
+      sender_id: senderId.toString(),
+      conversation_id: conversationId,
       content,
     })
-    .$returningId();
+    .select()
+    .single();
+
+  if (error || !inserted) {
+    throw error || new Error("Failed to save message");
+  }
 
   return {
     id: inserted.id,
-    senderId,
-    conversationId,
-    content,
-    createdAt: new Date().toISOString(),
+    senderId: inserted.sender_id,
+    conversationId: inserted.conversation_id,
+    content: inserted.content,
+    createdAt: inserted.created_at,
   };
 };

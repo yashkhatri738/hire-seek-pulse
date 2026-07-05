@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -109,6 +109,7 @@ function calcCompleteness(data: any): number {
 /*  MAIN COMPONENT                                                     */
 /* ================================================================== */
 export function ProfileView({ data }: ProfileViewProps) {
+  const router = useRouter();
   const [resumeDialogOpen, setResumeDialogOpen] = useState(false);
 
   const name = data.user?.name || "User";
@@ -155,40 +156,34 @@ export function ProfileView({ data }: ProfileViewProps) {
       {/*  HERO / BANNER CARD                                           */}
       {/* ============================================================ */}
       <motion.div variants={fadeUp}>
-        <Card className="overflow-hidden border-0 card-shadow relative">
-          {/* Solid banner */}
-          <div className="h-44 sm:h-52 relative overflow-hidden">
-            <div className="absolute inset-0 bg-primary" />
-            <div
-              className="absolute inset-0 opacity-[0.07]"
-              style={{
-                backgroundImage:
-                  "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
-              }}
-            />
-            <div className="absolute top-6 right-12 w-28 h-28 rounded-full bg-white/10 blur-2xl" />
-            <div className="absolute bottom-4 left-16 w-20 h-20 rounded-full bg-white/10 blur-xl" />
+        <Card className="overflow-hidden relative border-white/[0.06] bg-white/[0.03] backdrop-blur-sm card-shadow">
+          {/* Gradient banner */}
+          <div className="h-44 sm:h-52 relative overflow-hidden bg-gradient-to-br from-violet-600/30 via-purple-600/20 to-pink-600/20">
+            <div className="absolute inset-0 bg-dot-pattern opacity-60" />
+            <div className="absolute top-6 right-12 w-28 h-28 rounded-full bg-violet-500/20 blur-2xl" />
+            <div className="absolute bottom-4 left-16 w-20 h-20 rounded-full bg-pink-500/20 blur-xl" />
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0a0a0f] to-transparent" />
           </div>
 
           {/* Profile info overlay */}
           <CardContent className="relative px-6 sm:px-8 pb-8 -mt-16 sm:-mt-20">
             <div className="flex flex-col sm:flex-row sm:items-end gap-5">
               <motion.div variants={scaleIn} className="relative group">
-                <div className="ring-4 ring-background rounded-full shadow-xl">
-                  <Avatar className="h-28 w-28 sm:h-36 sm:w-36 border-4 border-background">
+                <div className="ring-4 ring-[#0a0a0f] rounded-full shadow-xl glow-sm">
+                  <Avatar className="h-28 w-28 sm:h-36 sm:w-36 border-4 border-[#0a0a0f]">
                     <AvatarImage src={avatar} alt={name} />
-                    <AvatarFallback className="text-2xl sm:text-3xl font-bold bg-primary text-primary-foreground">
+                    <AvatarFallback className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-violet-600 to-purple-600 text-white">
                       {getInitials(name)}
                     </AvatarFallback>
                   </Avatar>
                 </div>
-                <span className="absolute bottom-2 right-2 h-5 w-5 rounded-full bg-emerald-500 ring-4 ring-background" />
+                <span className="absolute bottom-2 right-2 h-5 w-5 rounded-full bg-emerald-500 ring-4 ring-[#0a0a0f]" />
               </motion.div>
 
               <div className="flex-1 space-y-1 pt-2 sm:pt-0">
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-2">
                   {name}
-                  <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
+                  <CheckCircle2 className="h-5 w-5 text-violet-400 shrink-0" />
                 </h1>
                 <p className="text-muted-foreground text-base sm:text-lg">
                   {experience.length > 0
@@ -217,34 +212,33 @@ export function ProfileView({ data }: ProfileViewProps) {
                 >
                   <DialogTrigger asChild>
                     <Button
-                      className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg h-11 px-6"
+                      className="gap-2 h-11 px-6 border-0 bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg shadow-violet-500/30 hover:from-violet-500 hover:to-purple-500"
                       id="upload-resume-btn"
                     >
                       <Upload className="h-4 w-4" />
                       Upload Resume
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-md">
+                  <DialogContent className="sm:max-w-md glass-strong border-white/[0.08]">
                     <DialogHeader>
-                      <DialogTitle className="flex items-center gap-2">
-                        <FileText className="h-5 w-5 text-primary" />
+                      <DialogTitle className="flex items-center gap-2 text-white">
+                        <FileText className="h-5 w-5 text-violet-400" />
                         Upload Your Resume
                       </DialogTitle>
-                      <DialogDescription>
+                      <DialogDescription className="text-muted-foreground">
                         Upload your latest resume in PDF format. Max file size
                         5MB.
                       </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4 pt-2">
-                      <div className="border-2 border-dashed border-primary/30 rounded-xl p-8 text-center">
+                      <div className="border-2 border-dashed border-violet-500/30 rounded-xl p-8 text-center bg-white/[0.02]">
                         <UploadButton
                           endpoint="resumeUploader"
                           onClientUploadComplete={(res) => {
                             if (res?.[0]?.url) {
-                              toast.success(
-                                "Resume uploaded successfully! Please refresh to see changes.",
-                              );
+                              toast.success("Resume uploaded successfully!");
                               setResumeDialogOpen(false);
+                              router.refresh();
                             }
                           }}
                           onUploadError={(error) => {
@@ -255,16 +249,16 @@ export function ProfileView({ data }: ProfileViewProps) {
                         />
                       </div>
                       {resumeUrl && (
-                        <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50 text-sm">
-                          <FileText className="h-4 w-4 text-primary shrink-0" />
-                          <span className="truncate flex-1">
+                        <div className="flex items-center gap-2 p-3 rounded-lg border border-white/[0.08] bg-white/[0.04] text-sm">
+                          <FileText className="h-4 w-4 text-violet-400 shrink-0" />
+                          <span className="truncate flex-1 text-muted-foreground">
                             Current: {resumeUrl}
                           </span>
                           <a
                             href={resumeUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-primary hover:underline"
+                            className="text-violet-300 hover:underline"
                           >
                             <ExternalLink className="h-4 w-4" />
                           </a>
@@ -275,7 +269,11 @@ export function ProfileView({ data }: ProfileViewProps) {
                 </Dialog>
 
                 {website && (
-                  <Button variant="outline" asChild className="h-11 gap-2">
+                  <Button
+                    variant="outline"
+                    asChild
+                    className="h-11 gap-2 border-white/10 bg-transparent hover:bg-white/[0.05]"
+                  >
                     <a href={website} target="_blank" rel="noreferrer">
                       <Globe className="h-4 w-4" />
                       Portfolio
@@ -291,25 +289,28 @@ export function ProfileView({ data }: ProfileViewProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Sidebar */}
         <motion.div variants={fadeUp} className="space-y-6">
-          <Card className="card-shadow border-0">
+          <Card className="glass-card card-shadow">
             <CardContent className="pt-6 space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-primary" />
+                <h3 className="font-semibold text-white flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-violet-400" />
                   Profile Strength
                 </h3>
-                <span className="text-sm font-bold text-primary">
+                <span className="text-sm font-bold gradient-text">
                   {completeness}%
                 </span>
               </div>
-              <Progress value={completeness} className="h-2.5 bg-muted" />
+              <Progress
+                value={completeness}
+                className="h-2.5 bg-white/[0.06] [&>div]:bg-gradient-to-r [&>div]:from-violet-500 [&>div]:to-pink-500"
+              />
             </CardContent>
           </Card>
 
-          <Card className="card-shadow border-0">
+          <Card className="glass-card card-shadow">
             <CardContent className="pt-6 space-y-5">
-              <h3 className="font-semibold text-base flex items-center gap-2">
-                <User className="h-4 w-4 text-primary" />
+              <h3 className="font-semibold text-base text-white flex items-center gap-2">
+                <User className="h-4 w-4 text-violet-400" />
                 Personal Details
               </h3>
               <div className="space-y-4">
@@ -359,22 +360,21 @@ export function ProfileView({ data }: ProfileViewProps) {
             </CardContent>
           </Card>
 
-          <Card className="card-shadow border-0">
+          <Card className="glass-card card-shadow">
             <CardContent className="pt-6 space-y-4">
-              <h3 className="font-semibold text-base flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-primary" />
+              <h3 className="font-semibold text-base text-white flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-violet-400" />
                 Skills
               </h3>
               <div className="flex flex-wrap gap-2">
                 {skills.length > 0 ? (
                   skills.map((skill: string, i: any) => (
-                    <Badge
+                    <span
                       key={i}
-                      variant="secondary"
-                      className="px-3 py-1 bg-primary/10 text-primary border-0"
+                      className="rounded-full border border-violet-500/20 bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-200"
                     >
                       {skill}
-                    </Badge>
+                    </span>
                   ))
                 ) : (
                   <p className="text-xs text-muted-foreground italic">
@@ -389,25 +389,25 @@ export function ProfileView({ data }: ProfileViewProps) {
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
           <motion.div variants={fadeUp}>
-            <Card className="card-shadow border-0">
+            <Card className="glass-card card-shadow">
               <CardContent className="pt-6 space-y-4">
-                <h3 className="font-semibold text-lg flex items-center gap-2">
-                  <User className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold text-lg text-white flex items-center gap-2">
+                  <User className="h-5 w-5 text-violet-400" />
                   About
                 </h3>
-                <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-line">
                   {bio || "No biography provided yet."}
-                </p>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
 
           {/* Experience Timeline */}
           <motion.div variants={fadeUp}>
-            <Card className="card-shadow border-0">
+            <Card className="glass-card card-shadow">
               <CardContent className="pt-6 space-y-6">
-                <h3 className="font-semibold text-lg flex items-center gap-2">
-                  <Briefcase className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold text-lg text-white flex items-center gap-2">
+                  <Briefcase className="h-5 w-5 text-violet-400" />
                   Experience
                 </h3>
 
@@ -419,27 +419,26 @@ export function ProfileView({ data }: ProfileViewProps) {
                         className="relative pl-8 pb-8 last:pb-0 group"
                       >
                         {index < experience.length - 1 && (
-                          <div className="absolute left-[11px] top-8 bottom-0 w-[2px] bg-gradient-to-b from-primary/30 to-border" />
+                          <div className="absolute left-[11px] top-8 bottom-0 w-[2px] bg-gradient-to-b from-violet-500/40 to-white/[0.06]" />
                         )}
                         <div
-                          className={`absolute left-0 top-1.5 h-6 w-6 rounded-full flex items-center justify-center ${exp.current ? "bg-primary text-white" : "bg-muted border-2"}`}
+                          className={`absolute left-0 top-1.5 h-6 w-6 rounded-full flex items-center justify-center ${exp.current ? "bg-gradient-to-br from-violet-600 to-purple-600 text-white glow-sm" : "bg-white/[0.05] text-muted-foreground border border-white/[0.1]"}`}
                         >
                           <Briefcase className="h-3 w-3" />
                         </div>
                         <div className="space-y-1">
                           <div className="flex items-start justify-between gap-2">
                             <div>
-                              <h4 className="font-semibold">{exp.role}</h4>
-                              <p className="text-sm text-primary font-medium">
+                              <h4 className="font-semibold text-white">
+                                {exp.role}
+                              </h4>
+                              <p className="text-sm text-violet-300 font-medium">
                                 {exp.company}
                               </p>
                             </div>
-                            <Badge
-                              variant="outline"
-                              className="text-xs font-normal"
-                            >
+                            <span className="shrink-0 rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-xs text-muted-foreground">
                               {exp.period}
-                            </Badge>
+                            </span>
                           </div>
                           <p className="text-sm text-muted-foreground">
                             {exp.description}
@@ -459,10 +458,10 @@ export function ProfileView({ data }: ProfileViewProps) {
 
           {/* Education Cards */}
           <motion.div variants={fadeUp}>
-            <Card className="card-shadow border-0">
+            <Card className="glass-card card-shadow">
               <CardContent className="pt-6 space-y-5">
-                <h3 className="font-semibold text-lg flex items-center gap-2">
-                  <GraduationCap className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold text-lg text-white flex items-center gap-2">
+                  <GraduationCap className="h-5 w-5 text-violet-400" />
                   Education
                 </h3>
                 <div className="space-y-4">
@@ -470,25 +469,24 @@ export function ProfileView({ data }: ProfileViewProps) {
                     education.map((edu, index) => (
                       <div
                         key={index}
-                        className="flex items-start gap-4 p-4 rounded-xl bg-muted/40 transition-colors"
+                        className="flex items-start gap-4 p-4 rounded-xl border border-white/[0.06] bg-white/[0.03] transition-colors hover:border-violet-500/20"
                       >
-                        <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                          <GraduationCap className="h-5 w-5 text-primary" />
+                        <div className="h-10 w-10 rounded-xl bg-violet-500/10 ring-1 ring-violet-500/20 flex items-center justify-center shrink-0">
+                          <GraduationCap className="h-5 w-5 text-violet-300" />
                         </div>
                         <div className="flex-1">
-                          <h4 className="font-semibold">{edu.degree}</h4>
+                          <h4 className="font-semibold text-white">
+                            {edu.degree}
+                          </h4>
                           <p className="text-sm text-muted-foreground">
                             {edu.school}
                           </p>
-                          <div className="flex items-center gap-3 mt-1">
-                            <Badge
-                              variant="outline"
-                              className="text-[10px] h-5"
-                            >
+                          <div className="flex items-center gap-3 mt-1.5">
+                            <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2 py-0.5 text-[10px] text-muted-foreground">
                               {edu.year}
-                            </Badge>
+                            </span>
                             {edu.grade && (
-                              <span className="text-xs text-primary font-medium flex items-center gap-1">
+                              <span className="text-xs text-violet-300 font-medium flex items-center gap-1">
                                 <Award className="h-3 w-3" /> {edu.grade}
                               </span>
                             )}
@@ -508,10 +506,10 @@ export function ProfileView({ data }: ProfileViewProps) {
 
           {/* Projects Grid */}
           <motion.div variants={fadeUp}>
-            <Card className="card-shadow border-0">
+            <Card className="glass-card card-shadow">
               <CardContent className="pt-6 space-y-5">
-                <h3 className="font-semibold text-lg flex items-center gap-2">
-                  <FolderKanban className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold text-lg text-white flex items-center gap-2">
+                  <FolderKanban className="h-5 w-5 text-violet-400" />
                   Projects
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -519,11 +517,11 @@ export function ProfileView({ data }: ProfileViewProps) {
                     projects.map((proj, index) => (
                       <div
                         key={index}
-                        className="p-5 rounded-xl border bg-card hover:bg-muted/30 transition-all group"
+                        className="p-5 rounded-xl border border-white/[0.06] bg-white/[0.03] transition-all hover:border-violet-500/25 hover:bg-white/[0.05] group"
                       >
                         <div className="flex items-start justify-between mb-3">
-                          <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                            <Rocket className="h-5 w-5 text-primary" />
+                          <div className="h-10 w-10 rounded-lg bg-violet-500/10 ring-1 ring-violet-500/20 flex items-center justify-center">
+                            <Rocket className="h-5 w-5 text-violet-300" />
                           </div>
                           {proj.link && (
                             <a
@@ -531,11 +529,13 @@ export function ProfileView({ data }: ProfileViewProps) {
                               target="_blank"
                               rel="noreferrer"
                             >
-                              <ExternalLink className="h-4 w-4 text-muted-foreground hover:text-primary transition-colors" />
+                              <ExternalLink className="h-4 w-4 text-muted-foreground hover:text-violet-300 transition-colors" />
                             </a>
                           )}
                         </div>
-                        <h4 className="font-semibold mb-1">{proj.name}</h4>
+                        <h4 className="font-semibold text-white mb-1">
+                          {proj.name}
+                        </h4>
                         <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
                           {proj.description}
                         </p>
@@ -543,7 +543,7 @@ export function ProfileView({ data }: ProfileViewProps) {
                           {proj.tech.split(",").map((t, i) => (
                             <span
                               key={i}
-                              className="text-[10px] px-2 py-0.5 rounded-full bg-muted"
+                              className="text-[10px] px-2 py-0.5 rounded-full border border-white/[0.08] bg-white/[0.04] text-muted-foreground"
                             >
                               {t.trim()}
                             </span>
@@ -577,12 +577,14 @@ function DetailRow({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0 mt-0.5">
+      <div className="h-8 w-8 rounded-lg bg-violet-500/10 ring-1 ring-violet-500/20 flex items-center justify-center text-violet-300 shrink-0 mt-0.5">
         {icon}
       </div>
       <div className="min-w-0">
         <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="text-sm font-medium capitalize truncate">{value}</p>
+        <p className="text-sm font-medium text-white capitalize truncate">
+          {value}
+        </p>
       </div>
     </div>
   );
