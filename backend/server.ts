@@ -11,7 +11,18 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "http://localhost:3000",
+  "http://localhost:3001",
+].filter(Boolean) as string[];
+
+app.use(
+  cors({
+    origin: allowedOrigins.length > 0 ? allowedOrigins : "*",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // API routes
@@ -22,7 +33,9 @@ const server = http.createServer(app);
 // Socket setup
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: allowedOrigins.length > 0 ? allowedOrigins : "*",
+    methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
