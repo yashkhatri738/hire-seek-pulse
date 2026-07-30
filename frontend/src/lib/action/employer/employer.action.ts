@@ -83,9 +83,16 @@ export const updateEmployerDetails = async (data: EmployerProfileData) => {
                 website_url: restData.websiteUrl,
                 location: restData.location,
             })
-            .eq("id", user.id);
-
         if (error) throw error;
+
+        // Also sync name and avatar in public.users
+        await supabase
+            .from("users")
+            .update({
+                name: restData.name,
+                avatar_url: restData.avatarUrl || null,
+            })
+            .eq("id", user.id);
 
         return {
             status: "SUCCESS",

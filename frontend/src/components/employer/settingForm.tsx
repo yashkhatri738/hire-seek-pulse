@@ -61,7 +61,15 @@ const EmployerSettingsForm = ({
     resolver: zodResolver(employerProfileSchema),
   });
 
-  const onError = () => {};
+  const onError = (formErrors: Record<string, any>) => {
+    console.log("Validation errors:", formErrors);
+    const firstKey = Object.keys(formErrors)[0];
+    if (firstKey && formErrors[firstKey]?.message) {
+      toast.error(`Validation Error: ${formErrors[firstKey].message}`);
+    } else {
+      toast.error("Please fill all required fields correctly.");
+    }
+  };
 
   const handleFormSubmit = async (data: EmployerProfileData) => {
     try {
