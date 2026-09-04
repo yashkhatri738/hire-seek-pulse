@@ -1,0 +1,16 @@
+# Credentials & Secrets
+company_credentials.txt
+*.credentials.txt
+
+# Dependencies
+node_modules/
+
+# Environment Variables
+.env
+.env*.local
+
+# Build outputs
+.next/
+dist/
+out/
+build/

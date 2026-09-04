@@ -42,3 +42,7 @@ yarn-error.log*
 
 # Vercel
 .vercel
+
+# Credentials & Secrets
+company_credentials.txt
+*.credentials.txt
